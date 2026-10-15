@@ -1,0 +1,3016 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pelajaran lengkap JavaScript dengan editor langsung: ubah kode, tekan Jalankan, lihat hasilnya.">
+    <title>Belajar JavaScript</title>
+
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #20302d;
+            --muted: #63716e;
+            --paper: #f5f7f2;
+            --card: #ffffff;
+            --green: #246b53;
+            --green-dark: #194d3d;
+            --lime: #d9f18b;
+            --line: #e2e9e2;
+            --code: #f0f4ed;
+            --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            line-height: 1.65;
+        }
+
+        a {
+            color: var(--green);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #a5cb59;
+            outline-offset: 3px;
+        }
+
+        /* ---------- Kerangka halaman ---------- */
+
+        .hero {
+            padding: 32px max(24px, calc((100% - 1240px) / 2)) 48px;
+            color: #fff;
+            background:
+                radial-gradient(ellipse at 85% 15%, rgb(217 241 139 / 20%), transparent 30%),
+                linear-gradient(135deg, #194d3d, #287457);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 58px;
+        }
+
+        .brand {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: .02em;
+            text-decoration: none;
+        }
+
+        .topbar nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 22px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .topbar nav a {
+            color: #e3f0e8;
+            font-size: .9rem;
+            text-decoration: none;
+        }
+
+        .topbar nav a:hover {
+            color: var(--lime);
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: var(--lime);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            max-width: 760px;
+            margin: 0;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            letter-spacing: -.055em;
+            line-height: 1.05;
+        }
+
+        .hero-copy {
+            max-width: 640px;
+            margin: 20px 0 0;
+            color: #e0eee5;
+            font-size: 1.08rem;
+        }
+
+        .hero-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 26px;
+            padding: 9px 14px;
+            border: 1px solid rgb(255 255 255 / 25%);
+            border-radius: 999px;
+            color: #f4f8ec;
+            font-size: .88rem;
+        }
+
+        .hero-note span {
+            color: var(--lime);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 210px minmax(0, 1fr);
+            gap: 34px;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 42px 24px 70px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 24px;
+            align-self: start;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+        }
+
+        .sidebar p {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: .75rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .sidebar ol {
+            display: grid;
+            gap: 2px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 5px 10px;
+            border-radius: 8px;
+            color: #495953;
+            font-size: .88rem;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: var(--green-dark);
+            background: #e8eee4;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        .intro {
+            margin: 0 0 26px;
+            color: var(--muted);
+        }
+
+        .bagian {
+            margin: 34px 0 14px;
+            color: var(--green-dark);
+            font-size: .8rem;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .lesson {
+            margin: 0 0 20px;
+            padding: clamp(20px, 4vw, 32px);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: var(--card);
+            box-shadow: 0 8px 24px rgb(32 48 45 / 3%);
+            scroll-margin-top: 20px;
+        }
+
+        .lesson-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .lesson-number {
+            display: grid;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--green-dark);
+            background: #e8f2da;
+            font-size: .88rem;
+            font-weight: 800;
+        }
+
+        .lesson h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            letter-spacing: -.025em;
+            line-height: 1.35;
+        }
+
+        .lesson-heading p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: .91rem;
+        }
+
+        .lesson h3.subjudul {
+            margin: 24px 0 8px;
+            font-size: 1.05rem;
+        }
+
+        .teks {
+            max-width: 78ch;
+            margin: 0 0 16px;
+        }
+
+        ul.teks,
+        ol.teks {
+            padding-left: 22px;
+        }
+
+        .teks li + li {
+            margin-top: 4px;
+        }
+
+        .catatan {
+            margin: 16px 0 0;
+            padding: 12px 16px;
+            border-left: 3px solid #a5cb59;
+            border-radius: 0 10px 10px 0;
+            color: #43554d;
+            background: #f6f9f0;
+            font-size: .92rem;
+        }
+
+        code {
+            padding: 2px 6px;
+            border-radius: 5px;
+            background: var(--code);
+            font-family: var(--mono);
+            font-size: .9em;
+        }
+
+        pre {
+            overflow-x: auto;
+            margin: 0;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: #1d3029;
+            color: #e9f5e8;
+            font-family: var(--mono);
+            font-size: .82rem;
+            line-height: 1.55;
+        }
+
+        kbd {
+            padding: 1px 6px;
+            border: 1px solid #cfd9d0;
+            border-bottom-width: 2px;
+            border-radius: 5px;
+            background: #fff;
+            font-family: var(--mono);
+            font-size: .82em;
+        }
+
+        pre code {
+            padding: 0;
+            background: none;
+            font-size: inherit;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+        }
+
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: .92rem;
+        }
+
+        .table-wrap th,
+        .table-wrap td {
+            padding: 9px 14px;
+            border-top: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .table-wrap thead {
+            background: #edf3e9;
+        }
+
+        .table-wrap thead th {
+            border-top: 0;
+            color: #33483e;
+            font-size: .86rem;
+        }
+
+        .page-footer {
+            padding: 26px 24px 40px;
+            color: var(--muted);
+            font-size: .88rem;
+            text-align: center;
+        }
+
+        /* ---------- Kotak contoh: editor + hasil + console ---------- */
+
+        .contoh {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fbfcf9;
+        }
+
+        .contoh.lebar {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        /* Kode panjang: hasil dan console ditaruh di atas supaya langsung terlihat */
+        .contoh.lebar .kolom-hasil {
+            order: -1;
+        }
+
+        .kolom-kode,
+        .kolom-hasil {
+            min-width: 0;
+        }
+
+        .nama-kode {
+            margin: 0 0 4px;
+            color: var(--muted);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        * + .nama-kode {
+            margin-top: 12px;
+        }
+
+        .editor {
+            display: block;
+            width: 100%;
+            margin: 0;
+            padding: 14px 16px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: #1d3029;
+            color: #e9f5e8;
+            caret-color: var(--lime);
+            font-family: var(--mono);
+            font-size: .82rem;
+            line-height: 1.55;
+            tab-size: 4;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            overflow: hidden;
+            resize: none;
+        }
+
+        .editor:hover {
+            border-color: #3d5a4f;
+        }
+
+        .editor:focus {
+            border-color: #a5cb59;
+            outline: none;
+        }
+
+        .editor-monaco {
+            overflow: hidden;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: #1d3029;
+        }
+
+        .editor-monaco:hover {
+            border-color: #3d5a4f;
+        }
+
+        .editor-monaco:focus-within {
+            border-color: #a5cb59;
+        }
+
+        .masalah {
+            display: grid;
+            gap: 4px;
+            margin: 6px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .masalah[hidden] {
+            display: none;
+        }
+
+        .masalah button {
+            width: 100%;
+            padding: 5px 10px;
+            border: 0;
+            border-radius: 6px;
+            font: inherit;
+            font-size: .8rem;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .masalah .error button {
+            color: #a32020;
+            background: #fdecec;
+        }
+
+        .masalah .warn button {
+            color: #7a5a00;
+            background: #fff8db;
+        }
+
+        .tombol-rapikan {
+            display: none;
+        }
+
+        .bisa-rapikan .tombol-rapikan {
+            display: inline-block;
+        }
+
+        .petunjuk.gagal {
+            color: #a32020;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tombol-jalan,
+        .tombol-reset {
+            padding: 7px 16px;
+            border-radius: 999px;
+            font: inherit;
+            font-size: .86rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .tombol-jalan {
+            border: 1px solid var(--green);
+            color: #fff;
+            background: var(--green);
+        }
+
+        .tombol-jalan:hover {
+            background: var(--green-dark);
+        }
+
+        .tombol-reset {
+            border: 1px solid #cfd9d0;
+            color: var(--muted);
+            background: #fff;
+        }
+
+        .tombol-reset:hover {
+            color: var(--green-dark);
+            border-color: var(--green);
+        }
+
+        .petunjuk {
+            color: var(--muted);
+            font-size: .8rem;
+        }
+
+        .konsol {
+            min-height: 64px;
+            max-height: 420px;
+            overflow: auto;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+            font-family: var(--mono);
+            font-size: .8rem;
+            line-height: 1.5;
+        }
+
+        .baris-konsol {
+            padding: 5px 12px;
+            border-bottom: 1px solid #eef1ec;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .baris-konsol:last-child {
+            border-bottom: 0;
+        }
+
+        .baris-konsol.info {
+            color: #0b5878;
+        }
+
+        .baris-konsol.warn {
+            color: #7a5a00;
+            background: #fff8db;
+        }
+
+        .baris-konsol.error {
+            color: #a32020;
+            background: #fdecec;
+        }
+
+        .baris-konsol.kosong {
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .konsol table {
+            border-collapse: collapse;
+        }
+
+        .konsol th,
+        .konsol td {
+            padding: 3px 8px;
+            border: 1px solid var(--line);
+            text-align: left;
+        }
+
+        .konsol th {
+            background: #f3f6f1;
+        }
+
+        /* ---------- Gaya elemen di dalam kotak "Hasil" ---------- */
+
+        .pratinjau {
+            padding: 16px;
+            border: 1px dashed #cfd9d0;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .pratinjau > :first-child {
+            margin-top: 0;
+        }
+
+        .pratinjau > :last-child {
+            margin-bottom: 0;
+        }
+
+        .pratinjau h3 {
+            margin: 0 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .pratinjau p {
+            margin: 8px 0;
+        }
+
+        .tombol-demo {
+            padding: 8px 16px;
+            border: 0;
+            border-radius: 8px;
+            color: #fff;
+            background: var(--green);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .tombol-demo:hover {
+            background: var(--green-dark);
+        }
+
+        .tombol-demo:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        .tombol-kecil {
+            margin-left: auto;
+            padding: 2px 10px;
+            border: 1px solid #e5b4b4;
+            border-radius: 999px;
+            color: #a32020;
+            background: #fff;
+            font: inherit;
+            font-size: .8rem;
+            cursor: pointer;
+        }
+
+        .input-demo {
+            width: 100%;
+            min-height: 40px;
+            padding: 8px 11px;
+            border: 1px solid #cfd9d0;
+            border-radius: 8px;
+            color: var(--ink);
+            background: #fff;
+            font: inherit;
+        }
+
+        .input-demo:focus {
+            border-color: var(--green);
+            outline: 2px solid #cfe8b0;
+        }
+
+        .baris-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .baris-demo .input-demo {
+            flex: 1 1 160px;
+            width: auto;
+        }
+
+        .kotak-dom,
+        .area-demo {
+            margin-top: 10px;
+            padding: 14px;
+            border: 2px solid var(--line);
+            border-radius: 10px;
+            transition: background-color .2s, border-color .2s;
+        }
+
+        .menyala {
+            border-color: #a5cb59;
+            background: #eef7d8;
+        }
+
+        .daftar-demo {
+            display: grid;
+            gap: 6px;
+            margin: 12px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .daftar-demo li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+        }
+
+        .form-demo {
+            display: grid;
+            gap: 6px;
+            max-width: 360px;
+        }
+
+        .form-demo label {
+            margin-top: 6px;
+            color: #34463e;
+            font-size: .86rem;
+            font-weight: 700;
+        }
+
+        .form-demo button {
+            justify-self: start;
+            margin-top: 10px;
+        }
+
+        .info-demo {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        .info-demo.salah {
+            color: #a32020;
+        }
+
+        .info-demo.benar {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .proyek-grid {
+            display: grid;
+            grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .tabel-demo {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .9rem;
+        }
+
+        .tabel-demo th,
+        .tabel-demo td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+        }
+
+        .tabel-demo thead th {
+            color: #33483e;
+            background: #edf3e9;
+            font-size: .82rem;
+        }
+
+        .tabel-demo tfoot th {
+            border-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .tabel-demo .kosong {
+            color: var(--muted);
+            text-align: center;
+        }
+
+        @media (max-width: 1020px) {
+            .contoh {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .layout {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .sidebar {
+                position: static;
+                max-height: none;
+            }
+
+            .sidebar ol {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 36px;
+            }
+
+            .proyek-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="hero">
+        <div class="topbar">
+            <a class="brand" href="index.html">Belajar Web</a>
+            <nav aria-label="Navigasi utama">
+                <ul>
+                    <li><a href="html.html">Pelajaran HTML</a></li>
+                    <li><a href="css.html">Pelajaran CSS</a></li>
+                    <li><a href="#hof">Higher-order function</a></li>
+                    <li><a href="#dom">DOM</a></li>
+                    <li><a href="#proyek">Proyek mini</a></li>
+                </ul>
+            </nav>
+        </div>
+        <p class="eyebrow">Pelajaran JavaScript</p>
+        <h1>Belajar JavaScript</h1>
+        <p class="hero-copy">HTML menyusun isi, CSS mengatur tampilan, JavaScript memberi perilaku: merespons klik, mengolah data, dan mengubah halaman tanpa memuat ulang. Setiap contoh di sini bisa kamu ubah dan jalankan langsung.</p>
+        <p class="hero-note"><span>●</span> 24 pelajaran + kanvas bebas, semua kodenya bisa diedit dan dijalankan</p>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <p>Daftar pelajaran</p>
+            <ol>
+                <li><a href="#pengenalan">01 Pengenalan</a></li>
+                <li><a href="#variabel">02 Variabel</a></li>
+                <li><a href="#tipe-data">03 Tipe data</a></li>
+                <li><a href="#operator">04 Operator</a></li>
+                <li><a href="#string">05 String</a></li>
+                <li><a href="#kondisi">06 Kondisi</a></li>
+                <li><a href="#perulangan">07 Perulangan</a></li>
+                <li><a href="#fungsi">08 Fungsi</a></li>
+                <li><a href="#array">09 Array</a></li>
+                <li><a href="#object">10 Object</a></li>
+                <li><a href="#data">11 Array of object &amp; JSON</a></li>
+                <li><a href="#hof">12 Callback &amp; HOF</a></li>
+                <li><a href="#foreach-map">13 forEach &amp; map</a></li>
+                <li><a href="#filter-find">14 filter &amp; find</a></li>
+                <li><a href="#reduce">15 reduce</a></li>
+                <li><a href="#chaining">16 sort &amp; chaining</a></li>
+                <li><a href="#dom">17 DOM</a></li>
+                <li><a href="#event">18 Event</a></li>
+                <li><a href="#membuat-elemen">19 Membuat elemen</a></li>
+                <li><a href="#form">20 Form</a></li>
+                <li><a href="#asinkron">21 Asinkron &amp; fetch</a></li>
+                <li><a href="#error">22 Error &amp; penyimpanan</a></li>
+                <li><a href="#proyek">23 Proyek mini</a></li>
+                <li><a href="#ringkasan">24 Ringkasan</a></li>
+                <li><a href="#kanvas">★ Kanvas bebas</a></li>
+            </ol>
+        </aside>
+
+        <main>
+            <p class="intro">Cara memakai halaman ini: kotak gelap berisi kode yang <strong>bisa kamu ubah</strong>. Tekan <strong>▶ Jalankan</strong> (atau <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>) untuk menjalankannya. Editornya sama seperti VS Code: saran kode muncul saat mengetik (<kbd>Ctrl</kbd> + <kbd>Space</kbd> untuk memunculkannya), tombol <strong>Rapikan</strong> merapikan penulisan, dan kesalahan diberi garis bawah merah atau kuning beserta penjelasannya di bawah editor. Semua yang ditulis dengan <code>console.log()</code> muncul di kotak <strong>Console</strong>, dan contoh yang mengubah halaman tampil di kotak <strong>Hasil</strong>. Tombol <strong>Reset</strong> mengembalikan kode semula.</p>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian A — Dasar bahasa</p>
+
+            <section class="lesson" id="pengenalan">
+                <div class="lesson-heading">
+                    <span class="lesson-number">01</span>
+                    <div>
+                        <h2>Pengenalan: apa itu JavaScript</h2>
+                        <p>Cara memasang, console, dan komentar.</p>
+                    </div>
+                </div>
+
+                <p class="teks">JavaScript adalah bahasa pemrograman yang dijalankan oleh browser. Dengan JavaScript halaman bisa bereaksi: menghitung total belanja, menampilkan pesan saat tombol diklik, atau mengambil data dari internet. Ada dua cara menaruhnya di HTML:</p>
+
+                <pre><code>&lt;!-- 1. Internal: tag &lt;script&gt; di akhir &lt;body&gt;, setelah semua elemen HTML --&gt;
+&lt;body&gt;
+    &lt;h1&gt;Halo&lt;/h1&gt;
+    &lt;script&gt;
+        console.log("Halo dari JavaScript!");
+    &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;!-- 2. Eksternal: file .js terpisah. "defer" = jalankan setelah HTML selesai dibaca --&gt;
+&lt;head&gt;
+    &lt;script src="script.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+
+                <p class="teks" style="margin-top: 16px;"><code>console.log()</code> adalah alat utama programmer untuk melihat isi sebuah nilai. Di halaman biasa hasilnya muncul di <strong>DevTools</strong> (tekan <kbd>F12</kbd>, atau <kbd>⌘</kbd> + <kbd>Option</kbd> + <kbd>J</kbd> di Mac, lalu buka tab Console). Di halaman ini hasilnya juga ditampilkan di kotak Console di sebelah kode.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // console.log() menampilkan apa saja ke console
+                        console.log("Halo, dunia!");
+                        console.log(2 + 3);
+                        console.log("Umur saya", 20, "tahun");
+
+                        // Baris yang diawali // adalah komentar: tidak dijalankan
+
+                        /*
+                           Ini komentar
+                           beberapa baris
+                        */
+
+                        // Coba: ganti teks di atas dengan namamu, lalu tekan Jalankan
+                    </script>
+                </div>
+
+                <p class="catatan">JavaScript membedakan huruf besar dan kecil: <code>console.log</code> benar, <code>Console.Log</code> salah. Titik koma (<code>;</code>) di akhir baris boleh tidak ditulis, tapi sebaiknya dibiasakan.</p>
+            </section>
+
+            <section class="lesson" id="variabel">
+                <div class="lesson-heading">
+                    <span class="lesson-number">02</span>
+                    <div>
+                        <h2>Variabel: let dan const</h2>
+                        <p>Wadah bernama untuk menyimpan nilai.</p>
+                    </div>
+                </div>
+
+                <ul class="teks">
+                    <li><code>const</code>: nilainya tidak bisa diganti. Pakai ini sebagai pilihan pertama.</li>
+                    <li><code>let</code>: nilainya bisa diganti. Pakai kalau memang akan berubah, misalnya skor atau penghitung.</li>
+                    <li><code>var</code>: cara lama dengan aturan yang membingungkan. Kamu akan menemuinya di kode lama, tapi jangan dipakai.</li>
+                </ul>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // const: nilainya tetap
+                        const nama = "Budi";
+
+                        // let: nilainya bisa diganti
+                        let umur = 20;
+                        console.log(nama, umur);
+
+                        umur = 21;
+                        console.log("Setelah ulang tahun:", umur);
+
+                        // Nama variabel: camelCase, tanpa spasi, tidak diawali angka
+                        const hargaSatuan = 15000;
+                        const jumlahBarang = 3;
+                        const totalHarga = hargaSatuan * jumlahBarang;
+                        console.log(totalHarga);
+
+                        // Coba hapus tanda // di baris bawah, lalu Jalankan:
+                        // nama = "Andi";
+                    </script>
+                </div>
+            </section>
+
+            <section class="lesson" id="tipe-data">
+                <div class="lesson-heading">
+                    <span class="lesson-number">03</span>
+                    <div>
+                        <h2>Tipe data</h2>
+                        <p>Jenis-jenis nilai dan cara mengubah tipenya.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Tipe dasar: <strong>string</strong> (teks), <strong>number</strong> (angka, bulat maupun desimal), <strong>boolean</strong> (<code>true</code>/<code>false</code>), <strong>null</strong> (sengaja dikosongkan), dan <strong>undefined</strong> (belum diberi nilai). Untuk kumpulan data ada <strong>array</strong> dan <strong>object</strong>. Operator <code>typeof</code> memberi tahu tipe sebuah nilai.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const teks = "Halo";        // string: pakai " " atau ' '
+                        const angka = 42;           // number
+                        const desimal = 3.14;       // number juga (pakai titik)
+                        const lulus = true;         // boolean
+                        const kosong = null;        // null
+                        let belumDiisi;             // undefined
+
+                        console.log(typeof teks, typeof angka, typeof desimal, typeof lulus);
+                        console.log(typeof belumDiisi, kosong);
+
+                        // Kumpulan data (dibahas di pelajaran 09 dan 10)
+                        const buah = ["apel", "jeruk"];
+                        const orang = { nama: "Sari", umur: 25 };
+                        console.log(buah, orang);
+
+                        // Hati-hati: + pada string berarti MENGGABUNG
+                        console.log("5" + 2);           // "52"
+                        console.log(Number("5") + 2);   // 7
+                        console.log(String(99) + 1);    // "991"
+                        console.log(Number("abc"));     // NaN = Not a Number
+                    </script>
+                </div>
+
+                <p class="catatan">Nilai dari kotak input HTML <strong>selalu berupa string</strong>, meskipun yang diketik angka. Ubah dulu dengan <code>Number()</code> sebelum dihitung.</p>
+            </section>
+
+            <section class="lesson" id="operator">
+                <div class="lesson-heading">
+                    <span class="lesson-number">04</span>
+                    <div>
+                        <h2>Operator</h2>
+                        <p>Menghitung, membandingkan, dan menggabungkan syarat.</p>
+                    </div>
+                </div>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // Aritmatika
+                        console.log(10 + 3, 10 - 3, 10 * 3, 10 / 3);
+                        console.log(10 % 3);    // sisa bagi: 1
+                        console.log(2 ** 3);    // pangkat: 8
+
+                        // Penugasan
+                        let skor = 10;
+                        skor += 5;              // sama dengan: skor = skor + 5
+                        skor++;                 // tambah 1
+                        console.log("Skor:", skor);
+
+                        // Perbandingan menghasilkan true atau false
+                        console.log(5 > 3, 5 <= 3);
+                        const lima = 5;
+                        const limaTeks = "5";
+                        console.log(lima === 5);          // sama nilai DAN tipe
+                        console.log(lima === limaTeks);   // false: tipenya beda
+                        console.log(lima == limaTeks);    // true: == mengubah tipe dulu (hindari)
+                        console.log(lima !== 3);          // tidak sama
+
+                        // Logika
+                        const umur = 20;
+                        const punyaKTP = true;
+                        console.log(umur >= 17 && punyaKTP);  // DAN: keduanya harus true
+                        console.log(umur < 13 || umur > 60);  // ATAU: cukup salah satu
+                        console.log(!punyaKTP);               // BUKAN: membalik
+                    </script>
+                </div>
+
+                <p class="catatan">Selalu pakai <code>===</code> dan <code>!==</code>. Versi dua tanda (<code>==</code>, <code>!=</code>) diam-diam mengubah tipe data dan sering menghasilkan kejutan. Garis kuning di baris yang memakai <code>==</code> adalah peringatan dari linter, dan memang disengaja di contoh ini.</p>
+            </section>
+
+            <section class="lesson" id="string">
+                <div class="lesson-heading">
+                    <span class="lesson-number">05</span>
+                    <div>
+                        <h2>Mengolah string</h2>
+                        <p>Template literal dan method teks yang paling sering dipakai.</p>
+                    </div>
+                </div>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const nama = "Sari";
+                        const umur = 25;
+
+                        // Template literal: pakai backtick ` dan ${...}
+                        console.log(`Halo, nama saya ${nama}, umur ${umur} tahun.`);
+                        console.log(`Tahun depan umur saya ${umur + 1}.`);
+
+                        const kalimat = "  Belajar JavaScript itu seru  ";
+                        console.log(kalimat.length);              // jumlah karakter
+                        console.log(kalimat.trim());              // buang spasi di ujung
+                        console.log(kalimat.toUpperCase());
+                        console.log(kalimat.includes("Java"));    // mengandung?
+                        console.log(kalimat.trim().slice(0, 7));  // potong: "Belajar"
+                        console.log(kalimat.replace("seru", "mudah"));
+
+                        // split memecah string menjadi array
+                        console.log("apel,jeruk,mangga".split(","));
+
+                        // Mengakses satu huruf
+                        console.log(nama[0], nama.at(-1));
+                    </script>
+                </div>
+            </section>
+
+            <section class="lesson" id="kondisi">
+                <div class="lesson-heading">
+                    <span class="lesson-number">06</span>
+                    <div>
+                        <h2>Kondisi: if, else, ternary, switch</h2>
+                        <p>Menjalankan kode yang berbeda sesuai keadaan.</p>
+                    </div>
+                </div>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const nilai = 78;   // coba ganti: 90, 60, 40
+
+                        if (nilai >= 85) {
+                            console.log("Nilai A");
+                        } else if (nilai >= 70) {
+                            console.log("Nilai B");
+                        } else if (nilai >= 55) {
+                            console.log("Nilai C");
+                        } else {
+                            console.log("Belum lulus");
+                        }
+
+                        // Ternary: if-else singkat untuk memilih satu nilai
+                        const status = nilai >= 55 ? "Lulus" : "Tidak lulus";
+                        console.log(status);
+
+                        // switch: membandingkan satu nilai dengan banyak pilihan
+                        const hari = "sabtu";
+                        switch (hari) {
+                            case "sabtu":
+                            case "minggu":
+                                console.log("Libur!");
+                                break;
+                            default:
+                                console.log("Hari kerja");
+                        }
+
+                        // Truthy dan falsy: nilai yang dianggap false
+                        const namaPengguna = "";
+                        if (!namaPengguna) {
+                            console.log("Nama belum diisi");
+                        }
+                    </script>
+                </div>
+
+                <p class="catatan">Nilai yang dianggap <strong>false</strong> di dalam <code>if</code> (falsy): <code>false</code>, <code>0</code>, <code>""</code> (string kosong), <code>null</code>, <code>undefined</code>, dan <code>NaN</code>. Semua nilai lain dianggap <strong>true</strong>.</p>
+            </section>
+
+            <section class="lesson" id="perulangan">
+                <div class="lesson-heading">
+                    <span class="lesson-number">07</span>
+                    <div>
+                        <h2>Perulangan: for, while, for...of</h2>
+                        <p>Menjalankan kode berkali-kali.</p>
+                    </div>
+                </div>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // for: kalau jumlah putarannya sudah diketahui
+                        for (let i = 1; i <= 5; i++) {
+                            console.log(`Putaran ke-${i}`);
+                        }
+
+                        // while: selama syaratnya masih true
+                        let tabungan = 100000;
+                        let bulan = 0;
+                        while (tabungan < 150000) {
+                            tabungan += 10000;
+                            bulan++;
+                        }
+                        console.log(`Butuh ${bulan} bulan menabung`);
+
+                        // for...of: mengambil setiap isi array
+                        const buah = ["apel", "jeruk", "mangga"];
+                        for (const item of buah) {
+                            console.log(item);
+                        }
+
+                        // continue melompati satu putaran, break berhenti
+                        for (let i = 1; i <= 10; i++) {
+                            if (i % 2 === 0) continue;   // lewati angka genap
+                            if (i > 7) break;            // berhenti setelah 7
+                            console.log("Ganjil:", i);
+                        }
+                    </script>
+                </div>
+
+                <p class="catatan">Hati-hati dengan perulangan yang syaratnya tidak pernah menjadi false, misalnya <code>while (true)</code> tanpa <code>break</code>. Browser akan macet; kalau terjadi, tutup tab lalu buka lagi.</p>
+            </section>
+
+            <section class="lesson" id="fungsi">
+                <div class="lesson-heading">
+                    <span class="lesson-number">08</span>
+                    <div>
+                        <h2>Fungsi</h2>
+                        <p>Membungkus kode supaya bisa dipakai berulang kali.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Fungsi menerima masukan lewat <strong>parameter</strong>, lalu memberikan hasil lewat <strong>return</strong>. Fungsi baru berjalan ketika <strong>dipanggil</strong> dengan tanda kurung: <code>sapa("Budi")</code>.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // Deklarasi fungsi
+                        function sapa(nama) {
+                            return `Halo, ${nama}!`;
+                        }
+                        console.log(sapa("Budi"));
+                        console.log(sapa("Sari"));
+
+                        // Parameter dengan nilai bawaan
+                        function hitungTotal(harga, jumlah = 1) {
+                            return harga * jumlah;
+                        }
+                        console.log(hitungTotal(15000, 3));
+                        console.log(hitungTotal(15000));   // jumlah otomatis 1
+
+                        // Arrow function: cara singkat menulis fungsi
+                        const kuadrat = (x) => x * x;
+                        const luasPersegiPanjang = (panjang, lebar) => {
+                            const luas = panjang * lebar;
+                            return luas;
+                        };
+                        console.log(kuadrat(4), luasPersegiPanjang(5, 3));
+
+                        // Scope: variabel di dalam fungsi tidak terlihat dari luar
+                        function contohScope() {
+                            const rahasia = "hanya ada di dalam fungsi";
+                            console.log(rahasia);
+                        }
+                        contohScope();
+                        // console.log(rahasia);  // ReferenceError
+                    </script>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian B — Kumpulan data</p>
+
+            <section class="lesson" id="array">
+                <div class="lesson-heading">
+                    <span class="lesson-number">09</span>
+                    <div>
+                        <h2>Array</h2>
+                        <p>Daftar nilai yang berurutan.</p>
+                    </div>
+                </div>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const buah = ["apel", "jeruk", "mangga"];
+
+                        console.log(buah[0]);                // index dimulai dari 0
+                        console.log(buah.length);            // jumlah isi
+                        console.log(buah[buah.length - 1]);  // isi terakhir
+
+                        buah.push("pisang");      // tambah di akhir
+                        buah.unshift("anggur");   // tambah di awal
+                        console.log(buah);
+
+                        const terakhir = buah.pop();   // ambil dan buang dari akhir
+                        console.log(terakhir, buah);
+
+                        buah[1] = "melon";        // ganti isi index 1
+                        buah.splice(2, 1);        // buang 1 isi mulai index 2
+                        console.log(buah);
+
+                        console.log(buah.includes("mangga"));   // ada?
+                        console.log(buah.indexOf("mangga"));    // di index berapa? (-1 = tidak ada)
+                        console.log(buah.join(" - "));          // gabung jadi string
+                    </script>
+                </div>
+
+                <p class="catatan">Array yang dibuat dengan <code>const</code> tetap bisa diubah isinya (<code>push</code>, <code>pop</code>, dan lainnya). Yang dilarang hanya mengganti seluruh array: <code>buah = [...]</code>.</p>
+            </section>
+
+            <section class="lesson" id="object">
+                <div class="lesson-heading">
+                    <span class="lesson-number">10</span>
+                    <div>
+                        <h2>Object</h2>
+                        <p>Kumpulan pasangan kunci dan nilai yang menggambarkan satu benda.</p>
+                    </div>
+                </div>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const siswa = {
+                            nama: "Sari",
+                            umur: 16,
+                            hobi: ["membaca", "renang"],
+                            alamat: { kota: "Bandung" },
+                            perkenalan() {
+                                // this = object ini sendiri
+                                return `Saya ${this.nama} dari ${this.alamat.kota}`;
+                            },
+                        };
+
+                        console.log(siswa.nama);          // notasi titik
+                        console.log(siswa["umur"]);       // notasi kurung siku
+                        console.log(siswa.hobi[0], siswa.alamat.kota);
+                        console.log(siswa.perkenalan());
+
+                        siswa.umur = 17;          // ubah
+                        siswa.kelas = "XI";       // tambah properti baru
+                        delete siswa.hobi;        // hapus properti
+                        console.log(siswa);
+
+                        // Daftar kunci, lalu kunci dan nilai sekaligus
+                        console.log(Object.keys(siswa));
+                        for (const [kunci, nilai] of Object.entries(siswa)) {
+                            console.log(kunci, "→", nilai);
+                        }
+
+                        // Destructuring: ambil properti ke variabel
+                        const { nama, kelas } = siswa;
+                        console.log(nama, kelas);
+
+                        // Spread: salin object, lalu ubah sebagian
+                        const salinan = { ...siswa, nama: "Rina" };
+                        console.log(salinan.nama, siswa.nama);
+                    </script>
+                </div>
+            </section>
+
+            <section class="lesson" id="data">
+                <div class="lesson-heading">
+                    <span class="lesson-number">11</span>
+                    <div>
+                        <h2>Array berisi object dan JSON</h2>
+                        <p>Bentuk data yang paling sering ditemui di aplikasi sungguhan.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Daftar produk, daftar pengguna, daftar pesanan: hampir semuanya berbentuk <strong>array yang berisi object</strong>. Cara membacanya: ambil isi array dengan index dulu, lalu properti object dengan titik. <strong>JSON</strong> adalah format teks untuk menyimpan dan mengirim data seperti ini, misalnya antara browser dan server.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const produk = [
+                            { nama: "Buku tulis", harga: 5000, stok: 120 },
+                            { nama: "Pulpen", harga: 3000, stok: 0 },
+                            { nama: "Tas sekolah", harga: 150000, stok: 8 },
+                        ];
+
+                        // console.table menampilkan array of object sebagai tabel
+                        console.table(produk);
+
+                        // Index dulu, lalu properti
+                        console.log(produk[0].nama);
+                        console.log(produk[2].harga);
+
+                        // Menambah dan mengubah data
+                        produk.push({ nama: "Botol minum", harga: 45000, stok: 15 });
+                        produk[1].stok = 50;
+                        console.log(produk.length, "produk, stok pulpen:", produk[1].stok);
+
+                        // Mengulang dengan for...of
+                        let nilaiStok = 0;
+                        for (const p of produk) {
+                            nilaiStok += p.harga * p.stok;
+                        }
+                        console.log("Nilai stok: Rp " + nilaiStok.toLocaleString("id-ID"));
+
+                        // JSON.stringify: object → teks
+                        const json = JSON.stringify(produk[0]);
+                        console.log(json, typeof json);
+
+                        // JSON.parse: teks → object
+                        const kembali = JSON.parse(json);
+                        console.log(kembali.nama, typeof kembali);
+                    </script>
+                </div>
+
+                <p class="catatan">Perulangan <code>for...of</code> di atas bekerja, tapi untuk setiap pekerjaan (menjumlah, menyaring, mengubah) kamu harus menulis perulangan baru. Bagian berikutnya mengenalkan cara yang lebih singkat dan lebih jelas maksudnya: <strong>higher-order function</strong>.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian C — Higher-order function</p>
+
+            <section class="lesson" id="hof">
+                <div class="lesson-heading">
+                    <span class="lesson-number">12</span>
+                    <div>
+                        <h2>Fungsi sebagai nilai: callback dan higher-order function</h2>
+                        <p>Dasar dari map, filter, reduce, dan addEventListener.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Di JavaScript, fungsi adalah <strong>nilai</strong>, sama seperti angka atau string. Fungsi bisa disimpan di variabel, dikirim ke fungsi lain, dan dikembalikan dari fungsi lain.</p>
+                <ul class="teks">
+                    <li><strong>Callback</strong>: fungsi yang dikirim ke fungsi lain, untuk dipanggil nanti oleh fungsi itu.</li>
+                    <li><strong>Higher-order function (HOF)</strong>: fungsi yang menerima fungsi lain, atau mengembalikan fungsi.</li>
+                </ul>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // 1. Fungsi bisa disimpan di variabel
+                        const sapa = (nama) => `Halo, ${nama}`;
+                        const teriak = (teks) => teks.toUpperCase() + "!";
+                        console.log(sapa("Budi"), "|", teriak("awas"));
+
+                        // 2. Fungsi bisa dikirim ke fungsi lain (callback)
+                        //    prosesNama adalah higher-order function
+                        function prosesNama(nama, callback) {
+                            return callback(nama);
+                        }
+                        console.log(prosesNama("sari", sapa));
+                        console.log(prosesNama("sari", teriak));
+                        console.log(prosesNama("sari", (n) => n.length + " huruf"));
+
+                        // 3. HOF buatan sendiri: ulangi sebuah aksi beberapa kali
+                        function ulangi(kali, aksi) {
+                            for (let i = 1; i <= kali; i++) {
+                                aksi(i);
+                            }
+                        }
+                        ulangi(3, (ke) => console.log("Putaran", ke));
+
+                        // 4. Fungsi bisa mengembalikan fungsi
+                        function buatPengali(faktor) {
+                            return (angka) => angka * faktor;
+                        }
+                        const kaliDua = buatPengali(2);
+                        const kaliSepuluh = buatPengali(10);
+                        console.log(kaliDua(7), kaliSepuluh(7));
+
+                        // Kesalahan umum: yang dikirim adalah fungsinya (sapa),
+                        // bukan hasil memanggilnya (sapa()). Hapus // lalu Jalankan:
+                        // prosesNama("sari", sapa("x"));
+                    </script>
+                </div>
+
+                <h3 class="subjudul">Cara kerja map dan filter di balik layar</h3>
+                <p class="teks">Method array seperti <code>map</code> dan <code>filter</code> hanyalah higher-order function yang berisi perulangan. Kalau ditulis sendiri, kira-kira seperti ini:</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // Buatan sendiri: panggil `ubah` untuk setiap isi, kumpulkan hasilnya
+                        function petakan(array, ubah) {
+                            const hasil = [];
+                            for (const isi of array) {
+                                hasil.push(ubah(isi));
+                            }
+                            return hasil;
+                        }
+
+                        // Buatan sendiri: simpan isi yang membuat `syarat` bernilai true
+                        function saring(array, syarat) {
+                            const hasil = [];
+                            for (const isi of array) {
+                                if (syarat(isi)) hasil.push(isi);
+                            }
+                            return hasil;
+                        }
+
+                        const angka = [1, 2, 3, 4, 5, 6];
+                        console.log(petakan(angka, (n) => n * 10));
+                        console.log(saring(angka, (n) => n % 2 === 0));
+
+                        // Versi bawaan JavaScript melakukan hal yang sama
+                        console.log(angka.map((n) => n * 10));
+                        console.log(angka.filter((n) => n % 2 === 0));
+                    </script>
+                </div>
+
+                <div class="table-wrap" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr><th>Method</th><th>Hasilnya</th><th>Dipakai untuk</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>forEach</code></td><td>tidak ada (<code>undefined</code>)</td><td>Melakukan sesuatu untuk setiap isi</td></tr>
+                            <tr><td><code>map</code></td><td>array baru, panjang sama</td><td>Mengubah setiap isi</td></tr>
+                            <tr><td><code>filter</code></td><td>array baru, bisa lebih pendek</td><td>Menyaring isi yang memenuhi syarat</td></tr>
+                            <tr><td><code>find</code></td><td>satu isi atau <code>undefined</code></td><td>Mencari satu isi</td></tr>
+                            <tr><td><code>findIndex</code></td><td>angka index atau <code>-1</code></td><td>Mencari posisi sebuah isi</td></tr>
+                            <tr><td><code>some</code> / <code>every</code></td><td><code>true</code> atau <code>false</code></td><td>Memeriksa ada salah satu / semuanya</td></tr>
+                            <tr><td><code>reduce</code></td><td>satu nilai apa saja</td><td>Merangkum: total, maksimum, pengelompokan</td></tr>
+                            <tr><td><code>sort</code></td><td>array yang sama, sudah urut</td><td>Mengurutkan (mengubah array asli)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="catatan">Callback untuk method array menerima tiga argumen: <code>(isi, index, arrayAsli)</code>. Biasanya cukup isi dan index. Nama parameternya bebas: <code>(p) =&gt;</code>, <code>(produk) =&gt;</code>, dan <code>(x) =&gt;</code> sama saja.</p>
+            </section>
+
+            <section class="lesson" id="foreach-map">
+                <div class="lesson-heading">
+                    <span class="lesson-number">13</span>
+                    <div>
+                        <h2>forEach dan map</h2>
+                        <p>Melakukan sesuatu untuk setiap isi, dan mengubah setiap isi.</p>
+                    </div>
+                </div>
+
+                <p class="teks"><code>forEach</code> hanya <em>menjalankan</em> callback untuk setiap isi. <code>map</code> menjalankan callback lalu <em>mengumpulkan nilai yang di-return</em> ke array baru. Aturan praktis: kalau kamu butuh hasilnya, pakai <code>map</code>.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const buah = ["apel", "jeruk", "mangga"];
+
+                        // forEach: jalankan callback untuk setiap isi
+                        buah.forEach((item, index) => {
+                            console.log(`${index + 1}. ${item}`);
+                        });
+
+                        // map: ubah setiap isi → array BARU dengan panjang yang sama
+                        const kapital = buah.map((item) => item.toUpperCase());
+                        console.log(kapital);
+                        console.log(buah);   // array asli tidak berubah
+
+                        const harga = [10000, 25000, 5000];
+                        console.log(harga.map((h) => h * 2));
+
+                        // map dari array of object: ambil satu properti saja
+                        const siswa = [
+                            { nama: "Sari", nilai: 88 },
+                            { nama: "Budi", nilai: 72 },
+                            { nama: "Rina", nilai: 95 },
+                        ];
+                        console.log(siswa.map((s) => s.nama));
+
+                        // map ke object baru. Bungkus { } dengan ( ) supaya dianggap object
+                        const rapor = siswa.map((s) => ({
+                            nama: s.nama,
+                            lulus: s.nilai >= 75,
+                        }));
+                        console.table(rapor);
+
+                        // Kesalahan umum: kurung kurawal tanpa return → undefined
+                        // (linter memberi garis kuning di sini)
+                        const salah = buah.map((item) => {
+                            item.toUpperCase();
+                        });
+                        console.log(salah);
+                    </script>
+                </div>
+
+                <h3 class="subjudul">Persiapan DOM: mengubah array menjadi HTML</h3>
+                <p class="teks">Pola ini akan sangat sering dipakai: setiap isi array di-<code>map</code> menjadi potongan HTML, lalu digabung dengan <code>join("")</code> menjadi satu string. Di bagian DOM, string itu dipasang ke halaman.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const menu = ["Beranda", "Produk", "Kontak"];
+
+                        // Setiap isi array diubah menjadi potongan HTML...
+                        const potongan = menu.map((nama) => `<li>${nama}</li>`);
+                        console.log(potongan);
+
+                        // ...lalu digabung menjadi satu string
+                        const html = `<ul>${potongan.join("")}</ul>`;
+                        console.log(html);
+
+                        // Dengan array of object, dan index untuk nomor urut
+                        const produk = [
+                            { nama: "Buku tulis", harga: 5000 },
+                            { nama: "Pulpen", harga: 3000 },
+                        ];
+                        const baris = produk
+                            .map((p, i) => `<tr><td>${i + 1}</td><td>${p.nama}</td><td>${p.harga}</td></tr>`)
+                            .join("\n");
+                        console.log(baris);
+
+                        // Lupa join? Array dijadikan string dengan koma di antaranya
+                        console.log(`${menu.map((nama) => `<li>${nama}</li>`)}`);
+                    </script>
+                </div>
+            </section>
+
+            <section class="lesson" id="filter-find">
+                <div class="lesson-heading">
+                    <span class="lesson-number">14</span>
+                    <div>
+                        <h2>filter, find, some, dan every</h2>
+                        <p>Menyaring, mencari, dan memeriksa isi array.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Callback untuk method-method ini mengembalikan <code>true</code> atau <code>false</code>: "apakah isi ini cocok?". Bedanya ada pada apa yang dikembalikan oleh method-nya.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const produk = [
+                            { nama: "Buku tulis", harga: 5000, stok: 120, kategori: "alat tulis" },
+                            { nama: "Pulpen", harga: 3000, stok: 0, kategori: "alat tulis" },
+                            { nama: "Tas sekolah", harga: 150000, stok: 8, kategori: "tas" },
+                            { nama: "Botol minum", harga: 45000, stok: 15, kategori: "lainnya" },
+                            { nama: "Pensil", harga: 2000, stok: 60, kategori: "alat tulis" },
+                        ];
+
+                        // filter: SEMUA yang cocok → array baru
+                        const alatTulis = produk.filter((p) => p.kategori === "alat tulis");
+                        console.log("Alat tulis:", alatTulis.length, "produk");
+
+                        const murahDanAda = produk.filter((p) => p.harga < 10000 && p.stok > 0);
+                        console.log(murahDanAda);
+
+                        // find: SATU yang pertama cocok (atau undefined)
+                        console.log(produk.find((p) => p.nama === "Tas sekolah"));
+                        console.log(produk.find((p) => p.nama === "Laptop"));
+
+                        // findIndex: posisi yang pertama cocok (atau -1)
+                        console.log("Index yang habis:", produk.findIndex((p) => p.stok === 0));
+
+                        // some: adakah SATU saja yang cocok?
+                        console.log("Ada yang habis?", produk.some((p) => p.stok === 0));
+
+                        // every: apakah SEMUA cocok?
+                        console.log("Semua di bawah 200rb?", produk.every((p) => p.harga < 200000));
+
+                        // Pencarian teks, seperti kotak pencarian di toko online
+                        const kataKunci = "pen";
+                        const hasilCari = produk.filter((p) => p.nama.toLowerCase().includes(kataKunci));
+                        console.log(`Hasil cari "${kataKunci}":`, hasilCari.map((p) => p.nama));
+
+                        // Menghapus satu isi tanpa mengubah array asli
+                        const tanpaPulpen = produk.filter((p) => p.nama !== "Pulpen");
+                        console.log(tanpaPulpen.length, "dari", produk.length);
+                    </script>
+                </div>
+
+                <p class="catatan">Pakai <code>filter</code> kalau hasilnya boleh lebih dari satu, dan <code>find</code> kalau kamu yakin hanya butuh satu (misalnya mencari berdasarkan id). <code>filter</code> selalu mengembalikan array, meskipun isinya hanya satu atau kosong.</p>
+            </section>
+
+            <section class="lesson" id="reduce">
+                <div class="lesson-heading">
+                    <span class="lesson-number">15</span>
+                    <div>
+                        <h2>reduce</h2>
+                        <p>Merangkum seluruh isi array menjadi satu nilai.</p>
+                    </div>
+                </div>
+
+                <p class="teks"><code>reduce(callback, nilaiAwal)</code> membawa sebuah nilai bernama <strong>akumulator</strong> dari satu putaran ke putaran berikutnya. Callback menerima <code>(akumulator, isi)</code> dan harus me-<code>return</code> akumulator yang baru. Nilai akhirnya bisa berupa angka, string, array, atau object.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const angka = [5, 12, 8, 130, 44];
+
+                        const total = angka.reduce((jumlah, n) => jumlah + n, 0);
+                        console.log("Total:", total);
+
+                        // Melihat langkah demi langkah
+                        angka.reduce((jumlah, n) => {
+                            console.log(`${jumlah} + ${n} = ${jumlah + n}`);
+                            return jumlah + n;
+                        }, 0);
+
+                        // Mencari nilai terbesar
+                        const terbesar = angka.reduce((maks, n) => (n > maks ? n : maks), angka[0]);
+                        console.log("Terbesar:", terbesar);
+
+                        // Total belanja dari array of object
+                        const keranjang = [
+                            { nama: "Buku tulis", harga: 5000, jumlah: 3 },
+                            { nama: "Pulpen", harga: 3000, jumlah: 2 },
+                            { nama: "Tas", harga: 150000, jumlah: 1 },
+                        ];
+                        const totalBelanja = keranjang.reduce((t, item) => t + item.harga * item.jumlah, 0);
+                        console.log("Total belanja: Rp " + totalBelanja.toLocaleString("id-ID"));
+
+                        // Akumulator berupa object: menghitung jumlah tiap jenis
+                        const pilihan = ["apel", "jeruk", "apel", "mangga", "apel", "jeruk"];
+                        const hitungan = pilihan.reduce((hasil, buah) => {
+                            hasil[buah] = (hasil[buah] || 0) + 1;
+                            return hasil;
+                        }, {});
+                        console.log(hitungan);
+
+                        // Mengelompokkan
+                        const siswa = [
+                            { nama: "Sari", kelas: "A" },
+                            { nama: "Budi", kelas: "B" },
+                            { nama: "Rina", kelas: "A" },
+                        ];
+                        const perKelas = siswa.reduce((grup, s) => {
+                            grup[s.kelas] = grup[s.kelas] || [];
+                            grup[s.kelas].push(s.nama);
+                            return grup;
+                        }, {});
+                        console.log(perKelas);
+                    </script>
+                </div>
+
+                <p class="catatan">Dua kesalahan paling sering: lupa menulis nilai awal (angka <code>0</code> atau <code>{}</code> setelah callback), dan lupa <code>return</code> di dalam callback yang memakai kurung kurawal. Kalau reduce terasa sulit, tidak apa-apa menulis <code>for...of</code> biasa dulu.</p>
+            </section>
+
+            <section class="lesson" id="chaining">
+                <div class="lesson-heading">
+                    <span class="lesson-number">16</span>
+                    <div>
+                        <h2>sort dan merangkai method (chaining)</h2>
+                        <p>Mengurutkan, lalu menggabungkan beberapa method menjadi satu alur.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Karena <code>filter</code> dan <code>map</code> mengembalikan array, hasilnya bisa langsung disambung dengan method berikutnya. Baca rangkaian seperti ini dari atas ke bawah, seperti resep.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        const produk = [
+                            { nama: "Buku tulis", harga: 5000, stok: 120, kategori: "alat tulis" },
+                            { nama: "Pulpen", harga: 3000, stok: 0, kategori: "alat tulis" },
+                            { nama: "Tas sekolah", harga: 150000, stok: 8, kategori: "tas" },
+                            { nama: "Botol minum", harga: 45000, stok: 15, kategori: "lainnya" },
+                            { nama: "Pensil", harga: 2000, stok: 60, kategori: "alat tulis" },
+                        ];
+
+                        // sort MENGUBAH array asli, jadi salin dulu dengan [...array]
+                        // Angka: (a, b) => a - b naik, b - a turun
+                        const termurah = [...produk].sort((a, b) => a.harga - b.harga);
+                        console.log(termurah.map((p) => p.nama));
+
+                        // Teks: pakai localeCompare
+                        const abjad = [...produk].sort((a, b) => a.nama.localeCompare(b.nama));
+                        console.log(abjad.map((p) => p.nama));
+
+                        // Chaining: hasil satu method langsung dipakai method berikutnya
+                        const laporan = produk
+                            .filter((p) => p.stok > 0)            // 1. yang tersedia
+                            .sort((a, b) => b.harga - a.harga)    // 2. termahal dulu
+                            .slice(0, 3)                          // 3. ambil 3 teratas
+                            .map((p) => `${p.nama}: Rp ${p.harga.toLocaleString("id-ID")}`);
+                        console.log(laporan);
+
+                        // Rata-rata harga alat tulis
+                        const hargaAlatTulis = produk
+                            .filter((p) => p.kategori === "alat tulis")
+                            .map((p) => p.harga);
+                        const rataRata = hargaAlatTulis.reduce((t, h) => t + h, 0) / hargaAlatTulis.length;
+                        console.log("Rata-rata:", rataRata);
+                    </script>
+                </div>
+
+                <h3 class="subjudul">Membuat dan mengulang tanpa array yang sudah ada</h3>
+                <p class="teks">Kadang yang ingin diulang bukan array: sebuah object, atau sekadar "lakukan 5 kali". Ada cara untuk mengubahnya menjadi array supaya method di atas bisa dipakai.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // Array.from: membuat array dari angka 1 sampai 5
+                        const nomor = Array.from({ length: 5 }, (_, i) => i + 1);
+                        console.log(nomor);
+
+                        // Tabel perkalian 3
+                        const tabel3 = nomor.map((n) => `3 × ${n} = ${3 * n}`);
+                        console.log(tabel3.join("\n"));
+
+                        // Object tidak punya map, tapi Object.entries mengubahnya jadi array
+                        const nilai = { matematika: 88, bahasa: 92, ipa: 75 };
+                        const daftarNilai = Object.entries(nilai).map(
+                            ([pelajaran, angka]) => `${pelajaran}: ${angka}`,
+                        );
+                        console.log(daftarNilai);
+
+                        // String juga bisa: split jadi array, olah, lalu join lagi
+                        const kalimat = "belajar javascript itu seru";
+                        const judul = kalimat
+                            .split(" ")
+                            .map((kata) => kata[0].toUpperCase() + kata.slice(1))
+                            .join(" ");
+                        console.log(judul);
+                    </script>
+                </div>
+
+                <p class="catatan">Siap untuk DOM: hasil <code>document.querySelectorAll()</code> bisa langsung di-<code>forEach</code>, dan bisa diubah menjadi array biasa dengan <code>Array.from()</code> supaya <code>map</code> dan <code>filter</code> juga bisa dipakai.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian D — Mengendalikan halaman (DOM)</p>
+
+            <section class="lesson" id="dom">
+                <div class="lesson-heading">
+                    <span class="lesson-number">17</span>
+                    <div>
+                        <h2>DOM: memilih dan mengubah elemen</h2>
+                        <p>JavaScript melihat halaman HTML sebagai pohon object yang bisa diubah.</p>
+                    </div>
+                </div>
+
+                <p class="teks">DOM (Document Object Model) adalah versi halaman HTML yang bisa diakses JavaScript lewat object <code>document</code>. Elemen dipilih dengan <strong>selector CSS</strong> yang sama seperti di pelajaran CSS. Mulai pelajaran ini ada dua kotak kode: <strong>HTML</strong> dan <strong>JavaScript</strong>. Keduanya bisa diedit.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <h3 id="dom-judul">Judul awal</h3>
+                        <p class="dom-teks">Paragraf pertama</p>
+                        <p class="dom-teks">Paragraf kedua</p>
+                        <div id="dom-kotak" class="kotak-dom">Kotak</div>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        // querySelector: memilih SATU elemen (yang pertama cocok)
+                        const judul = document.querySelector("#dom-judul");
+                        const kotak = document.querySelector("#dom-kotak");
+
+                        // querySelectorAll: memilih SEMUA elemen yang cocok
+                        const semuaTeks = document.querySelectorAll(".dom-teks");
+                        console.log(semuaTeks.length, "paragraf ditemukan");
+
+                        // Mengubah isi teks
+                        judul.textContent = "Judul diganti JavaScript";
+
+                        // Mengubah gaya langsung (nama properti CSS ditulis camelCase)
+                        judul.style.color = "#246b53";
+                        judul.style.letterSpacing = "-0.02em";
+
+                        // classList: menambah, menghapus, membalik class (cara paling rapi)
+                        kotak.classList.add("menyala");
+                        console.log(kotak.classList.contains("menyala"));
+
+                        // Mengubah semua hasil querySelectorAll
+                        semuaTeks.forEach((p, i) => {
+                            p.textContent = `Paragraf ke-${i + 1} sudah diubah`;
+                        });
+
+                        // innerHTML: membaca/menulis HTML di dalam elemen
+                        kotak.innerHTML = "Kotak <strong>menyala</strong>";
+
+                        // Atribut
+                        kotak.setAttribute("title", "Saya punya tooltip");
+                        console.log(kotak.getAttribute("title"));
+                        console.log(kotak);
+                    </script>
+                </div>
+
+                <p class="catatan">Pakai <code>textContent</code> untuk teks biasa. Pakai <code>innerHTML</code> hanya untuk HTML yang kamu tulis sendiri, jangan untuk teks yang diketik pengguna, karena pengguna bisa menyisipkan kode berbahaya.</p>
+            </section>
+
+            <section class="lesson" id="event">
+                <div class="lesson-heading">
+                    <span class="lesson-number">18</span>
+                    <div>
+                        <h2>Event: merespons klik, ketikan, dan gerakan</h2>
+                        <p>Menjalankan fungsi ketika pengguna melakukan sesuatu.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Pola dasarnya: <code>elemen.addEventListener("namaEvent", fungsi)</code>. Fungsi itu menerima object <code>event</code> yang berisi keterangan tentang kejadiannya. Setelah menekan Jalankan, coba klik tombol, ketik di kotak input, dan arahkan kursor ke kotak paling bawah.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <button id="ev-tombol" class="tombol-demo" type="button">Klik saya</button>
+                        <p>Diklik: <strong id="ev-hitung">0</strong> kali</p>
+                        <input id="ev-input" class="input-demo" type="text" placeholder="Ketik sesuatu, lalu tekan Enter">
+                        <p>Kamu mengetik: <span id="ev-cermin">-</span></p>
+                        <div id="ev-area" class="area-demo">Arahkan kursor ke sini</div>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const tombol = document.querySelector("#ev-tombol");
+                        const hitung = document.querySelector("#ev-hitung");
+                        let jumlahKlik = 0;
+
+                        // click: saat elemen diklik
+                        tombol.addEventListener("click", () => {
+                            jumlahKlik++;
+                            hitung.textContent = jumlahKlik;
+                        });
+
+                        // input: setiap kali isi kotak berubah
+                        const input = document.querySelector("#ev-input");
+                        const cermin = document.querySelector("#ev-cermin");
+                        input.addEventListener("input", (event) => {
+                            // event.target = elemen yang memicu event
+                            cermin.textContent = event.target.value || "-";
+                        });
+
+                        // keydown: saat tombol keyboard ditekan
+                        input.addEventListener("keydown", (event) => {
+                            if (event.key === "Enter") {
+                                console.log("Enter ditekan, isinya:", input.value);
+                            }
+                        });
+
+                        // mouseenter dan mouseleave: kursor masuk dan keluar
+                        const area = document.querySelector("#ev-area");
+                        area.addEventListener("mouseenter", () => area.classList.add("menyala"));
+                        area.addEventListener("mouseleave", () => area.classList.remove("menyala"));
+                    </script>
+                </div>
+
+                <p class="catatan">Event lain yang sering dipakai: <code>submit</code> (form dikirim), <code>change</code> (pilihan select/checkbox berubah), <code>focus</code> dan <code>blur</code> (kotak input aktif dan tidak aktif), serta <code>DOMContentLoaded</code> (HTML selesai dimuat).</p>
+            </section>
+
+            <section class="lesson" id="membuat-elemen">
+                <div class="lesson-heading">
+                    <span class="lesson-number">19</span>
+                    <div>
+                        <h2>Membuat dan menghapus elemen</h2>
+                        <p>Menampilkan isi array sebagai daftar di halaman.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Pola yang dipakai hampir semua aplikasi: <strong>data disimpan di array</strong>, lalu sebuah fungsi <strong>menggambar ulang tampilan</strong> dari data itu setiap kali datanya berubah. Elemen baru dibuat dengan <code>document.createElement()</code> lalu dipasang dengan <code>append()</code>.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <div class="baris-demo">
+                            <input id="todo-input" class="input-demo" type="text" placeholder="Tugas baru">
+                            <button id="todo-tambah" class="tombol-demo" type="button">Tambah</button>
+                        </div>
+                        <ul id="todo-daftar" class="daftar-demo"></ul>
+                        <p id="todo-info" class="info-demo"></p>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const input = document.querySelector("#todo-input");
+                        const daftar = document.querySelector("#todo-daftar");
+                        const info = document.querySelector("#todo-info");
+
+                        // 1. Data
+                        const tugas = ["Belajar HTML", "Belajar CSS"];
+
+                        // 2. Fungsi yang menggambar tampilan dari data
+                        function tampilkan() {
+                            daftar.innerHTML = "";   // kosongkan dulu
+
+                            tugas.forEach((teks, index) => {
+                                const li = document.createElement("li");
+                                li.textContent = teks;
+
+                                const hapus = document.createElement("button");
+                                hapus.textContent = "Hapus";
+                                hapus.className = "tombol-kecil";
+                                hapus.addEventListener("click", () => {
+                                    tugas.splice(index, 1);   // ubah data...
+                                    tampilkan();              // ...lalu gambar ulang
+                                });
+
+                                li.append(hapus);
+                                daftar.append(li);
+                            });
+
+                            info.textContent = `${tugas.length} tugas`;
+                        }
+
+                        // 3. Event yang mengubah data
+                        function tambahTugas() {
+                            const teks = input.value.trim();
+                            if (!teks) return;   // abaikan kalau kosong
+                            tugas.push(teks);
+                            console.log("Ditambahkan:", teks, tugas);
+                            input.value = "";
+                            input.focus();
+                            tampilkan();
+                        }
+
+                        document.querySelector("#todo-tambah").addEventListener("click", tambahTugas);
+                        input.addEventListener("keydown", (event) => {
+                            if (event.key === "Enter") tambahTugas();
+                        });
+
+                        tampilkan();
+                    </script>
+                </div>
+            </section>
+
+            <section class="lesson" id="form">
+                <div class="lesson-heading">
+                    <span class="lesson-number">20</span>
+                    <div>
+                        <h2>Form: membaca isian dan validasi</h2>
+                        <p>Memeriksa isian pengguna sebelum diproses.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Saat form dikirim, browser biasanya memuat ulang halaman. <code>event.preventDefault()</code> mencegah hal itu supaya JavaScript bisa memeriksa isian dulu. Isi kotak input dibaca dengan <code>.value</code>. Coba kirim form dalam keadaan kosong.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <form id="daftar-form" class="form-demo" novalidate>
+                            <label for="f-nama">Nama</label>
+                            <input id="f-nama" class="input-demo" type="text">
+                            <label for="f-email">Email</label>
+                            <input id="f-email" class="input-demo" type="email">
+                            <label for="f-umur">Umur</label>
+                            <input id="f-umur" class="input-demo" type="number">
+                            <button class="tombol-demo" type="submit">Daftar</button>
+                            <p id="f-pesan" class="info-demo"></p>
+                        </form>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const form = document.querySelector("#daftar-form");
+                        const pesan = document.querySelector("#f-pesan");
+
+                        form.addEventListener("submit", (event) => {
+                            // Cegah halaman dimuat ulang
+                            event.preventDefault();
+
+                            const nama = document.querySelector("#f-nama").value.trim();
+                            const email = document.querySelector("#f-email").value.trim();
+                            const umur = Number(document.querySelector("#f-umur").value);
+
+                            const kesalahan = [];
+                            if (nama.length < 3) kesalahan.push("Nama minimal 3 huruf");
+                            if (!email.includes("@")) kesalahan.push("Email tidak valid");
+                            if (!umur || umur < 10) kesalahan.push("Umur minimal 10 tahun");
+
+                            if (kesalahan.length > 0) {
+                                pesan.textContent = kesalahan.join(". ") + ".";
+                                pesan.className = "info-demo salah";
+                                console.warn("Validasi gagal:", kesalahan);
+                                return;
+                            }
+
+                            pesan.textContent = `Terima kasih, ${nama}! Pendaftaran berhasil.`;
+                            pesan.className = "info-demo benar";
+                            console.log("Data terkirim:", { nama, email, umur });
+                            form.reset();
+                        });
+                    </script>
+                </div>
+
+                <p class="catatan"><code>{ nama, email, umur }</code> adalah singkatan dari <code>{ nama: nama, email: email, umur: umur }</code>. Validasi di browser hanya untuk kenyamanan pengguna; di aplikasi sungguhan server tetap harus memeriksa ulang.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian E — Lanjutan</p>
+
+            <section class="lesson" id="asinkron">
+                <div class="lesson-heading">
+                    <span class="lesson-number">21</span>
+                    <div>
+                        <h2>Asinkron: setTimeout, Promise, async/await, fetch</h2>
+                        <p>Pekerjaan yang hasilnya baru ada nanti.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Beberapa pekerjaan butuh waktu: menunggu beberapa detik, atau meminta data ke server. JavaScript tidak berhenti menunggu; kode berikutnya tetap jalan, dan hasilnya diproses ketika sudah siap. Perhatikan urutan angka di console contoh pertama.</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        console.log("1. Mulai");
+
+                        setTimeout(() => {
+                            console.log("3. Muncul setelah 1 detik");
+                        }, 1000);
+
+                        console.log("2. Kode di bawah setTimeout tidak menunggu");
+
+                        // Promise: "janji" bahwa hasilnya akan ada nanti
+                        function tunggu(ms) {
+                            return new Promise((selesai) => setTimeout(selesai, ms));
+                        }
+
+                        // async/await: menulis kode asinkron seperti kode biasa.
+                        // await = tunggu sampai Promise selesai, baru lanjut.
+                        async function hitungMundur() {
+                            await tunggu(1500);
+                            for (let i = 3; i > 0; i--) {
+                                console.log(`Hitung mundur: ${i}`);
+                                await tunggu(1000);
+                            }
+                            console.log("Selesai!");
+                        }
+
+                        hitungMundur();
+                    </script>
+                </div>
+
+                <h3 class="subjudul">Mengambil data dari internet dengan fetch</h3>
+                <p class="teks"><code>fetch()</code> meminta data ke alamat lain dan mengembalikan Promise. Contoh ini mengambil daftar pengguna contoh dari <code>jsonplaceholder.typicode.com</code>, jadi butuh koneksi internet. Klik tombolnya setelah menekan Jalankan.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <button id="api-tombol" class="tombol-demo" type="button">Ambil data pengguna</button>
+                        <ul id="api-daftar" class="daftar-demo"></ul>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const tombol = document.querySelector("#api-tombol");
+                        const daftar = document.querySelector("#api-daftar");
+
+                        async function ambilPengguna() {
+                            tombol.disabled = true;
+                            tombol.textContent = "Memuat…";
+
+                            try {
+                                const respons = await fetch("https://jsonplaceholder.typicode.com/users");
+                                if (!respons.ok) {
+                                    throw new Error(`Server menjawab dengan status ${respons.status}`);
+                                }
+
+                                const pengguna = await respons.json();   // teks JSON → array
+                                console.log(`${pengguna.length} pengguna diterima. Yang pertama:`);
+                                console.log(pengguna[0]);
+
+                                daftar.innerHTML = "";
+                                pengguna.slice(0, 5).forEach((orang) => {
+                                    const li = document.createElement("li");
+                                    li.textContent = `${orang.name} — ${orang.address.city}`;
+                                    daftar.append(li);
+                                });
+                            } catch (error) {
+                                console.error("Gagal mengambil data:", error.message);
+                            } finally {
+                                tombol.disabled = false;
+                                tombol.textContent = "Ambil data pengguna";
+                            }
+                        }
+
+                        tombol.addEventListener("click", ambilPengguna);
+                    </script>
+                </div>
+            </section>
+
+            <section class="lesson" id="error">
+                <div class="lesson-heading">
+                    <span class="lesson-number">22</span>
+                    <div>
+                        <h2>Menangani error dan menyimpan data</h2>
+                        <p>try...catch, throw, dan localStorage.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Error yang tidak ditangani menghentikan kode. Dengan <code>try...catch</code>, kode yang mungkin gagal dicoba dulu, dan kalau gagal, kamu yang menentukan apa yang terjadi. Pesan error juga sangat berguna: baca bagian sebelum titik dua (jenis error) dan sesudahnya (penyebabnya).</p>
+
+                <div class="contoh">
+                    <script type="text/plain" class="kode">
+                        // Kode yang mungkin gagal dibungkus try...catch
+                        try {
+                            const data = JSON.parse("{ ini bukan JSON }");
+                            console.log(data);
+                        } catch (error) {
+                            console.error("Gagal membaca JSON:", error.message);
+                        }
+
+                        // throw: membuat error sendiri
+                        function bagi(a, b) {
+                            if (b === 0) {
+                                throw new Error("Tidak bisa membagi dengan nol");
+                            }
+                            return a / b;
+                        }
+
+                        try {
+                            console.log(bagi(10, 2));
+                            console.log(bagi(10, 0));
+                            console.log("Baris ini tidak pernah dijalankan");
+                        } catch (error) {
+                            console.warn(error.message);
+                        } finally {
+                            console.log("finally selalu dijalankan");
+                        }
+
+                        // Error yang tidak ditangkap. Hapus // di bawah, lalu Jalankan:
+                        // console.log(variabelYangTidakAda);
+                    </script>
+                </div>
+
+                <h3 class="subjudul">Menyimpan data di browser dengan localStorage</h3>
+                <p class="teks">Semua variabel hilang ketika halaman dimuat ulang. <code>localStorage</code> menyimpan teks di browser secara permanen sampai dihapus. Simpan sebuah nama, lalu muat ulang halaman ini: namanya masih ada.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <div class="baris-demo">
+                            <input id="ls-nama" class="input-demo" type="text" placeholder="Nama kamu">
+                            <button id="ls-simpan" class="tombol-demo" type="button">Simpan</button>
+                            <button id="ls-hapus" class="tombol-kecil" type="button">Hapus</button>
+                        </div>
+                        <p id="ls-sapa" class="info-demo"></p>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const input = document.querySelector("#ls-nama");
+                        const sapa = document.querySelector("#ls-sapa");
+
+                        function tampilkanSapaan() {
+                            // getItem mengembalikan null kalau belum pernah disimpan
+                            const nama = localStorage.getItem("namaPengguna");
+                            sapa.textContent = nama
+                                ? `Selamat datang kembali, ${nama}!`
+                                : "Belum ada nama tersimpan.";
+                            console.log("Isi localStorage:", nama);
+                        }
+
+                        document.querySelector("#ls-simpan").addEventListener("click", () => {
+                            const nama = input.value.trim();
+                            if (!nama) return;
+                            localStorage.setItem("namaPengguna", nama);
+                            input.value = "";
+                            tampilkanSapaan();
+                        });
+
+                        document.querySelector("#ls-hapus").addEventListener("click", () => {
+                            localStorage.removeItem("namaPengguna");
+                            tampilkanSapaan();
+                        });
+
+                        tampilkanSapaan();
+
+                        // localStorage hanya menyimpan string.
+                        // Untuk array atau object, pakai JSON:
+                        // localStorage.setItem("keranjang", JSON.stringify([1, 2, 3]));
+                        // const keranjang = JSON.parse(localStorage.getItem("keranjang"));
+                    </script>
+                </div>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian F — Praktik</p>
+
+            <section class="lesson" id="proyek">
+                <div class="lesson-heading">
+                    <span class="lesson-number">23</span>
+                    <div>
+                        <h2>Proyek mini: form order yang benar-benar bekerja</h2>
+                        <p>Form "Order" dari latihan HTML, sekarang bisa menghitung total.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Proyek ini memakai hampir semua yang sudah dipelajari: array of object (katalog dan pesanan), fungsi, <code>forEach</code> dan <code>reduce</code>, membuat elemen, event <code>submit</code> dan <code>click</code>, serta validasi. Coba tambahkan beberapa barang, lalu hapus salah satunya.</p>
+
+                <div class="contoh lebar">
+                    <div class="pratinjau">
+                        <div class="proyek-grid">
+                            <form id="order-form" class="form-demo">
+                                <h3>Order</h3>
+                                <label for="o-tanggal">Tanggal</label>
+                                <input id="o-tanggal" class="input-demo" type="date">
+                                <label for="o-barang">Nama Barang</label>
+                                <select id="o-barang" class="input-demo">
+                                    <option value="">-- pilih barang --</option>
+                                </select>
+                                <label for="o-jumlah">Jumlah</label>
+                                <input id="o-jumlah" class="input-demo" type="number" min="1" value="1">
+                                <button class="tombol-demo" type="submit">Tambah ke pesanan</button>
+                            </form>
+                            <table class="tabel-demo">
+                                <thead>
+                                    <tr><th>Tanggal</th><th>Barang</th><th>Jml</th><th>Subtotal</th><th></th></tr>
+                                </thead>
+                                <tbody id="o-isi"></tbody>
+                                <tfoot>
+                                    <tr><th colspan="3">Total</th><th id="o-total" colspan="2">Rp 0</th></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const katalog = [
+                            { nama: "Buku tulis", harga: 5000 },
+                            { nama: "Pulpen", harga: 3000 },
+                            { nama: "Pensil", harga: 2000 },
+                            { nama: "Penghapus", harga: 1500 },
+                        ];
+
+                        const form = document.querySelector("#order-form");
+                        const pilihBarang = document.querySelector("#o-barang");
+                        const inputJumlah = document.querySelector("#o-jumlah");
+                        const inputTanggal = document.querySelector("#o-tanggal");
+                        const isiTabel = document.querySelector("#o-isi");
+                        const total = document.querySelector("#o-total");
+
+                        const pesanan = [];
+
+                        const rupiah = (angka) => "Rp " + angka.toLocaleString("id-ID");
+
+                        // 1. Isi pilihan barang dari array katalog
+                        katalog.forEach((barang, index) => {
+                            const option = document.createElement("option");
+                            option.value = index;
+                            option.textContent = `${barang.nama} (${rupiah(barang.harga)})`;
+                            pilihBarang.append(option);
+                        });
+
+                        // Tanggal hari ini sebagai nilai awal
+                        inputTanggal.valueAsDate = new Date();
+
+                        // 2. Gambar ulang tabel dari array pesanan
+                        function tampilkan() {
+                            isiTabel.innerHTML = "";
+
+                            if (pesanan.length === 0) {
+                                isiTabel.innerHTML = `<tr><td colspan="5" class="kosong">Belum ada pesanan</td></tr>`;
+                            }
+
+                            pesanan.forEach((item, index) => {
+                                const baris = document.createElement("tr");
+                                baris.innerHTML = `
+                                    <td>${item.tanggal}</td>
+                                    <td>${item.nama}</td>
+                                    <td>${item.jumlah}</td>
+                                    <td>${rupiah(item.harga * item.jumlah)}</td>
+                                    <td><button class="tombol-kecil" type="button">Hapus</button></td>
+                                `;
+                                baris.querySelector("button").addEventListener("click", () => {
+                                    pesanan.splice(index, 1);
+                                    tampilkan();
+                                });
+                                isiTabel.append(baris);
+                            });
+
+                            const jumlahTotal = pesanan.reduce((t, item) => t + item.harga * item.jumlah, 0);
+                            total.textContent = rupiah(jumlahTotal);
+                        }
+
+                        // 3. Tambah pesanan saat form dikirim
+                        form.addEventListener("submit", (event) => {
+                            event.preventDefault();
+
+                            const barang = katalog[pilihBarang.value];
+                            const jumlah = Number(inputJumlah.value);
+
+                            if (!barang || jumlah < 1) {
+                                console.warn("Pilih barang dan isi jumlah minimal 1");
+                                return;
+                            }
+
+                            const item = {
+                                tanggal: inputTanggal.value,
+                                nama: barang.nama,
+                                harga: barang.harga,
+                                jumlah,
+                            };
+                            pesanan.push(item);
+                            console.log("Ditambahkan:", item);
+
+                            inputJumlah.value = 1;
+                            tampilkan();
+                        });
+
+                        tampilkan();
+                    </script>
+                </div>
+
+                <p class="catatan">Tantangan lanjutan: simpan <code>pesanan</code> ke <code>localStorage</code> (pelajaran 22) supaya tidak hilang saat halaman dimuat ulang, dan gabungkan barang yang sama menjadi satu baris dengan jumlah yang dijumlahkan.</p>
+            </section>
+
+            <section class="lesson" id="ringkasan">
+                <div class="lesson-heading">
+                    <span class="lesson-number">24</span>
+                    <div>
+                        <h2>Ringkasan dan latihan</h2>
+                        <p>Contekan cepat dan tugas untuk dicoba sendiri.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Tujuan</th><th>Kode</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Menampilkan nilai</td><td><code>console.log(nilai)</code></td></tr>
+                            <tr><td>Variabel tetap / berubah</td><td><code>const a = 1;</code> &nbsp; <code>let b = 2;</code></td></tr>
+                            <tr><td>Teks dengan variabel</td><td><code>`Halo ${nama}`</code></td></tr>
+                            <tr><td>String → angka</td><td><code>Number("5")</code></td></tr>
+                            <tr><td>Membandingkan</td><td><code>===</code> &nbsp; <code>!==</code> &nbsp; <code>&gt;</code> &nbsp; <code>&lt;=</code></td></tr>
+                            <tr><td>Syarat</td><td><code>if (syarat) { } else { }</code> &nbsp; <code>syarat ? a : b</code></td></tr>
+                            <tr><td>Mengulang</td><td><code>for (let i = 0; i &lt; 5; i++) { }</code> &nbsp; <code>for (const x of arr) { }</code></td></tr>
+                            <tr><td>Fungsi</td><td><code>function f(x) { return x; }</code> &nbsp; <code>const f = (x) =&gt; x;</code></td></tr>
+                            <tr><td>Array</td><td><code>push</code> <code>pop</code> <code>splice</code> <code>includes</code> <code>length</code></td></tr>
+                            <tr><td>Mengulang setiap isi</td><td><code>arr.forEach((x, i) =&gt; { })</code></td></tr>
+                            <tr><td>Mengubah setiap isi</td><td><code>arr.map((x) =&gt; x * 2)</code></td></tr>
+                            <tr><td>Menyaring / mencari</td><td><code>arr.filter((x) =&gt; x &gt; 5)</code> &nbsp; <code>arr.find((x) =&gt; x.id === 3)</code></td></tr>
+                            <tr><td>Merangkum</td><td><code>arr.reduce((total, x) =&gt; total + x, 0)</code></td></tr>
+                            <tr><td>Mengurutkan</td><td><code>[...arr].sort((a, b) =&gt; a - b)</code></td></tr>
+                            <tr><td>Array → HTML</td><td><code>arr.map((x) =&gt; `&lt;li&gt;${x}&lt;/li&gt;`).join("")</code></td></tr>
+                            <tr><td>Object</td><td><code>obj.kunci</code> &nbsp; <code>obj["kunci"]</code> &nbsp; <code>Object.keys(obj)</code> &nbsp; <code>{ ...obj }</code></td></tr>
+                            <tr><td>JSON</td><td><code>JSON.stringify(data)</code> &nbsp; <code>JSON.parse(teks)</code></td></tr>
+                            <tr><td>Memilih elemen</td><td><code>document.querySelector("#id")</code> &nbsp; <code>querySelectorAll(".class")</code></td></tr>
+                            <tr><td>Mengubah elemen</td><td><code>el.textContent</code> &nbsp; <code>el.classList.add()</code> &nbsp; <code>el.style.color</code></td></tr>
+                            <tr><td>Membuat elemen</td><td><code>document.createElement("li")</code> &nbsp; <code>induk.append(el)</code> &nbsp; <code>el.remove()</code></td></tr>
+                            <tr><td>Event</td><td><code>el.addEventListener("click", fungsi)</code></td></tr>
+                            <tr><td>Form</td><td><code>event.preventDefault()</code> &nbsp; <code>input.value</code></td></tr>
+                            <tr><td>Menunda</td><td><code>setTimeout(fungsi, 1000)</code></td></tr>
+                            <tr><td>Ambil data</td><td><code>const res = await fetch(url); const data = await res.json();</code></td></tr>
+                            <tr><td>Menangani error</td><td><code>try { } catch (error) { }</code></td></tr>
+                            <tr><td>Menyimpan di browser</td><td><code>localStorage.setItem("k", "v")</code> &nbsp; <code>getItem("k")</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="subjudul">Latihan</h3>
+                <ol class="teks">
+                    <li>Buat fungsi <code>hitungDiskon(harga, persen)</code> yang mengembalikan harga setelah diskon. Coba dengan beberapa nilai.</li>
+                    <li>Dari array <code>[3, 8, 15, 22, 7, 10]</code>, ambil angka genap dengan <code>filter</code>, kalikan dua dengan <code>map</code>, lalu jumlahkan dengan <code>reduce</code>, dalam satu rangkaian.</li>
+                    <li>Dari daftar siswa berisi nama dan nilai, buat string HTML <code>&lt;ol&gt;</code> berisi nama siswa yang lulus, diurutkan dari nilai tertinggi.</li>
+                    <li>Tulis program FizzBuzz: cetak angka 1 sampai 30, tapi ganti kelipatan 3 dengan "Fizz", kelipatan 5 dengan "Buzz", dan kelipatan keduanya dengan "FizzBuzz".</li>
+                    <li>Buat file HTML berisi kotak input "Nama Barang" dan tombol "Klik". Tambahkan <code>&lt;script&gt;</code> di akhir <code>&lt;body&gt;</code>, lalu buat tombol itu menampilkan isi kotak input di bawahnya.</li>
+                    <li>Buat tombol yang mengganti tema halaman antara terang dan gelap dengan <code>classList.toggle()</code>.</li>
+                    <li>Kembangkan daftar tugas di pelajaran 19: tambahkan tanda selesai (dicoret) saat teks tugas diklik.</li>
+                    <li>Tantangan: kerjakan tantangan lanjutan proyek mini di pelajaran 23.</li>
+                </ol>
+                <p class="teks">Semua latihan bisa dikerjakan di <a href="#kanvas">kanvas bebas</a> di bawah ini.</p>
+            </section>
+
+            <section class="lesson" id="kanvas">
+                <div class="lesson-heading">
+                    <span class="lesson-number">★</span>
+                    <div>
+                        <h2>Kanvas bebas</h2>
+                        <p>Tempat mengerjakan latihan tanpa membuat file baru.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Hapus isi kedua kotak kode dan tulis punyamu sendiri. Gunakan id yang diawali <code>kanvas-</code> supaya tidak bentrok dengan contoh lain di halaman ini.</p>
+
+                <div class="contoh">
+                    <div class="pratinjau">
+                        <div id="kanvas-area">
+                            <h3>Area bebas</h3>
+                            <button id="kanvas-tombol" class="tombol-demo" type="button">Tombol</button>
+                        </div>
+                    </div>
+                    <script type="text/plain" class="kode">
+                        const area = document.querySelector("#kanvas-area");
+                        const tombol = document.querySelector("#kanvas-tombol");
+
+                        tombol.addEventListener("click", () => {
+                            const p = document.createElement("p");
+                            p.textContent = "Diklik pada " + new Date().toLocaleTimeString("id-ID");
+                            area.append(p);
+                        });
+
+                        console.log("Tulis kodemu di sini, lalu tekan Jalankan.");
+                    </script>
+                </div>
+
+                <p class="catatan">Perubahan di semua kotak kode tidak tersimpan ke file; muat ulang halaman untuk kembali ke kode semula. Kalau halaman macet karena perulangan tak berujung, tutup tab lalu buka lagi.</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="page-footer">
+        <p>Belajar Web — pelajaran JavaScript. Sebelumnya: <a href="html.html">HTML</a> · <a href="css.html">CSS</a>.</p>
+    </footer>
+
+    <!--
+        EDITOR LANGSUNG
+        Skrip ini mengubah setiap <div class="contoh"> menjadi editor: kode dari
+        <script type="text/plain" class="kode"> dan HTML dari <div class="pratinjau">
+        dimasukkan ke editor. Tombol Jalankan memasang HTML-nya ke kotak Hasil,
+        lalu menjalankan kodenya dengan console buatan sendiri yang menulis ke kotak Console.
+
+        Alat bantu editor dimuat dari CDN setelah halaman tampil:
+        - Monaco (editor VS Code): warna kode, autocomplete, nomor baris
+        - Prettier: tombol Rapikan / Shift + Alt + F
+        - ESLint: garis bawah merah/kuning dan daftar masalah di bawah editor
+        Tanpa internet, editor tetap berupa kotak teks biasa dan semua contoh tetap bisa dijalankan.
+    -->
+    <script>
+        (() => {
+            const AsyncFunction = (async () => {}).constructor;
+            const diMac = /Mac|iPhone|iPad/.test(navigator.platform);
+            const CDN = 'https://cdn.jsdelivr.net/npm/';
+            const MONACO = CDN + 'monaco-editor@0.52.2/min';
+            const semuaEditor = [];
+            let contohAktif = null;
+
+            function rapikan(teks) {
+                const baris = teks.replace(/\t/g, '    ').split('\n');
+                while (baris.length && !baris[0].trim()) baris.shift();
+                while (baris.length && !baris[baris.length - 1].trim()) baris.pop();
+                const indentasi = Math.min(...baris.filter(b => b.trim()).map(b => b.match(/^ */)[0].length));
+                return baris.map(b => b.slice(indentasi)).join('\n');
+            }
+
+            // Mengubah nilai apa pun menjadi teks yang mirip tampilan console browser
+            function format(nilai, dalam = false, indent = '') {
+                if (typeof nilai === 'string') return dalam ? JSON.stringify(nilai) : nilai;
+                if (typeof nilai === 'function') return `ƒ ${nilai.name || 'anonim'}()`;
+                if (typeof nilai === 'bigint') return nilai + 'n';
+                if (nilai === null || typeof nilai !== 'object') return String(nilai);
+                if (nilai instanceof Error) return `${nilai.name}: ${nilai.message}`;
+                if (nilai instanceof Element) {
+                    const id = nilai.id ? '#' + nilai.id : '';
+                    const kelas = [...nilai.classList].map(k => '.' + k).join('');
+                    return `<${nilai.tagName.toLowerCase()}${id}${kelas}>`;
+                }
+                if (nilai instanceof Date) return nilai.toString();
+                if (nilai instanceof Promise) return 'Promise {…}';
+                if (indent.length > 10) return Array.isArray(nilai) ? '[…]' : '{…}';
+
+                const daftar = Array.isArray(nilai) || nilai instanceof NodeList || nilai instanceof HTMLCollection;
+                const awalan = nilai instanceof NodeList ? `NodeList(${nilai.length}) `
+                    : nilai instanceof HTMLCollection ? `HTMLCollection(${nilai.length}) ` : '';
+                const masuk = indent + '  ';
+                let isi = daftar
+                    ? Array.from(nilai).map(v => format(v, true, masuk))
+                    : Object.entries(nilai).map(([k, v]) =>
+                        `${/^[A-Za-z_$][\w$]*$/.test(k) ? k : JSON.stringify(k)}: ${format(v, true, masuk)}`);
+                if (isi.length > 50) isi = [...isi.slice(0, 50), `… ${isi.length - 50} lagi`];
+
+                const [buka, tutup] = daftar ? ['[', ']'] : ['{', '}'];
+                if (isi.length === 0) return awalan + buka + tutup;
+                const satuBaris = daftar ? `[${isi.join(', ')}]` : `{ ${isi.join(', ')} }`;
+                if (satuBaris.length <= 72 && !satuBaris.includes('\n')) return awalan + satuBaris;
+                return `${awalan}${buka}\n${isi.map(x => masuk + x).join(',\n')}\n${indent}${tutup}`;
+            }
+
+            function buatJudul(teks) {
+                const p = document.createElement('p');
+                p.className = 'nama-kode';
+                p.textContent = teks;
+                return p;
+            }
+
+            // ---------- Linting (ESLint) ----------
+
+            let linter = null;
+            let konfigLint = null;
+
+            function siapkanLinter() {
+                if (!window.eslint || !window.eslint.Linter) return;
+                linter = new window.eslint.Linter();
+                konfigLint = {
+                    parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+                    // env browser: document, console, fetch, localStorage, dan lainnya dianggap dikenal
+                    env: { browser: true, es2022: true },
+                    rules: {
+                        'no-undef': 'error',
+                        'no-const-assign': 'error',
+                        'no-dupe-keys': 'error',
+                        'no-duplicate-case': 'error',
+                        'no-func-assign': 'error',
+                        'valid-typeof': 'error',
+                        'use-isnan': 'error',
+                        'no-unsafe-negation': 'error',
+                        'array-callback-return': 'warn',
+                        'no-unreachable': 'warn',
+                        'no-cond-assign': ['warn', 'always'],
+                        'no-self-assign': 'warn',
+                        'no-self-compare': 'warn',
+                        'eqeqeq': 'warn',
+                        'no-var': 'warn',
+                        'prefer-const': 'warn',
+                        'no-unused-vars': ['warn', { args: 'none', caughtErrors: 'none' }],
+                        'semi': 'warn',
+                    },
+                };
+            }
+
+            function terjemahkan(m) {
+                if (m.fatal) return 'Kesalahan penulisan: ' + m.message.replace(/^Parsing error: /, '');
+                const nama = (m.message.match(/'([^']+)'/) || [])[1];
+                const pesan = {
+                    'no-undef': `'${nama}' belum dibuat. Salah ketik, atau lupa const/let?`,
+                    'no-unused-vars': `'${nama}' dibuat tapi tidak pernah dipakai.`,
+                    'no-const-assign': `'${nama}' dibuat dengan const, jadi nilainya tidak bisa diganti.`,
+                    'prefer-const': `'${nama}' tidak pernah diganti nilainya. Pakai const.`,
+                    'no-var': 'Hindari var. Pakai let atau const.',
+                    'eqeqeq': 'Pakai === atau !== supaya tipe data ikut dibandingkan.',
+                    'semi': 'Titik koma (;) tidak ada di akhir pernyataan.',
+                    'no-unreachable': 'Kode ini tidak akan pernah dijalankan.',
+                    'no-dupe-keys': `Kunci '${nama}' ditulis dua kali di object yang sama.`,
+                    'no-duplicate-case': 'case yang sama ditulis dua kali.',
+                    'no-func-assign': `'${nama}' adalah fungsi, jangan diganti nilainya.`,
+                    'no-cond-assign': 'Ini penugasan (=), bukan perbandingan (===).',
+                    'array-callback-return': 'Callback ini tidak me-return apa pun, jadi hasilnya undefined.',
+                    'use-isnan': 'Pakai Number.isNaN(x) untuk memeriksa NaN.',
+                    'valid-typeof': 'typeof tidak mungkin menghasilkan nilai itu. Periksa ejaannya.',
+                    'no-self-assign': `'${nama}' diisi dengan dirinya sendiri.`,
+                    'no-self-compare': 'Membandingkan nilai dengan dirinya sendiri.',
+                }[m.ruleId];
+                return pesan || m.message;
+            }
+
+            // ---------- Merapikan kode (Prettier) ----------
+
+            const prettierSiap = () => window.prettier && window.prettierPlugins;
+
+            function formatKode(kode, bahasa) {
+                return window.prettier.format(kode, {
+                    parser: bahasa === 'html' ? 'html' : 'babel',
+                    plugins: Object.values(window.prettierPlugins),
+                    tabWidth: 4,
+                    printWidth: 90,
+                });
+            }
+
+            // ---------- Satu editor ----------
+            // Isi editor disimpan di <textarea>. Kalau Monaco berhasil dimuat, textarea
+            // disembunyikan dan Monaco tampil di tempatnya, dengan isi yang selalu disamakan.
+
+            function buatEditor(isiAwal, bahasa, jalankan) {
+                const wadah = document.createElement('div');
+                wadah.className = 'wadah-editor';
+
+                const area = document.createElement('textarea');
+                area.className = 'editor';
+                area.spellcheck = false;
+                area.autocapitalize = 'off';
+                area.setAttribute('aria-label', 'Kode ' + (bahasa === 'html' ? 'HTML' : 'JavaScript'));
+                area.value = isiAwal;
+
+                const daftarMasalah = document.createElement('ul');
+                daftarMasalah.className = 'masalah';
+                daftarMasalah.hidden = true;
+
+                wadah.append(area, daftarMasalah);
+
+                const ed = { wadah, bahasa, jalankan, monaco: null };
+
+                ed.ambil = () => area.value;
+
+                ed.isi = (teks) => {
+                    area.value = teks;
+                    if (ed.monaco) {
+                        if (ed.monaco.getValue() !== teks) ed.monaco.setValue(teks);
+                    } else {
+                        sesuaikanTinggi();
+                    }
+                    ed.periksa();
+                };
+
+                function sesuaikanTinggi() {
+                    area.style.height = 'auto';
+                    area.style.height = area.scrollHeight + 4 + 'px';
+                }
+                ed.sesuaikanTinggi = sesuaikanTinggi;
+
+                ed.periksa = () => {
+                    if (!linter || bahasa !== 'javascript') return;
+                    const hasil = linter.verify(area.value, konfigLint);
+
+                    if (ed.monaco) {
+                        const model = ed.monaco.getModel();
+                        monaco.editor.setModelMarkers(model, 'eslint', hasil.map(m => ({
+                            severity: m.severity === 2 ? monaco.MarkerSeverity.Error : monaco.MarkerSeverity.Warning,
+                            message: terjemahkan(m),
+                            source: m.ruleId || 'eslint',
+                            startLineNumber: m.line,
+                            startColumn: m.column,
+                            endLineNumber: m.endLine || m.line,
+                            endColumn: m.endColumn || model.getLineMaxColumn(Math.min(m.line, model.getLineCount())),
+                        })));
+                    }
+
+                    daftarMasalah.replaceChildren(...hasil.map(m => {
+                        const li = document.createElement('li');
+                        li.className = m.severity === 2 ? 'error' : 'warn';
+                        const tombol = document.createElement('button');
+                        tombol.type = 'button';
+                        tombol.textContent = `${m.severity === 2 ? '✖' : '⚠'} Baris ${m.line}: ${terjemahkan(m)}`;
+                        tombol.addEventListener('click', () => {
+                            if (!ed.monaco) return area.focus();
+                            ed.monaco.setPosition({ lineNumber: m.line, column: m.column });
+                            ed.monaco.revealLineInCenterIfOutsideViewport(m.line);
+                            ed.monaco.focus();
+                        });
+                        li.append(tombol);
+                        return li;
+                    }));
+                    daftarMasalah.hidden = hasil.length === 0;
+                };
+
+                ed.rapikan = async () => {
+                    if (!prettierSiap()) return false;
+                    try {
+                        const hasil = (await formatKode(area.value, bahasa)).replace(/\n$/, '');
+                        if (ed.monaco) {
+                            // executeEdits menjaga riwayat, jadi Ctrl/⌘ + Z tetap bisa membatalkan
+                            const model = ed.monaco.getModel();
+                            ed.monaco.pushUndoStop();
+                            ed.monaco.executeEdits('rapikan', [{ range: model.getFullModelRange(), text: hasil }]);
+                            ed.monaco.pushUndoStop();
+                        } else {
+                            ed.isi(hasil);
+                        }
+                        return true;
+                    } catch {
+                        return false;
+                    }
+                };
+
+                let jeda;
+                area.addEventListener('input', () => {
+                    sesuaikanTinggi();
+                    clearTimeout(jeda);
+                    jeda = setTimeout(ed.periksa, 300);
+                });
+                area.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+                        event.preventDefault();
+                        jalankan();
+                        return;
+                    }
+                    if (event.key === 'Escape') area.blur();
+                    if (event.key === 'Tab' && !event.shiftKey) {
+                        event.preventDefault();
+                        area.setRangeText('    ', area.selectionStart, area.selectionEnd, 'end');
+                        sesuaikanTinggi();
+                    }
+                });
+
+                // Mengganti textarea dengan Monaco
+                ed.naikkan = () => {
+                    if (ed.monaco || !window.monaco) return;
+                    const tempat = document.createElement('div');
+                    tempat.className = 'editor-monaco';
+                    area.after(tempat);
+                    area.hidden = true;
+
+                    const editor = monaco.editor.create(tempat, {
+                        value: area.value,
+                        language: bahasa,
+                        theme: 'belajar',
+                        automaticLayout: true,
+                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+                        fontSize: 13,
+                        lineHeight: 20,
+                        tabSize: 4,
+                        insertSpaces: true,
+                        wordWrap: 'on',
+                        wrappingIndent: 'same',
+                        lineNumbersMinChars: 3,
+                        glyphMargin: false,
+                        folding: false,
+                        minimap: { enabled: false },
+                        stickyScroll: { enabled: false },
+                        scrollBeyondLastLine: false,
+                        overviewRulerLanes: 0,
+                        hideCursorInOverviewRuler: true,
+                        renderLineHighlightOnlyWhenFocus: true,
+                        padding: { top: 12, bottom: 12 },
+                        scrollbar: { vertical: 'hidden', horizontal: 'hidden', alwaysConsumeMouseWheel: false },
+                        fixedOverflowWidgets: true,
+                        formatOnPaste: true,
+                        quickSuggestions: { other: true, comments: false, strings: false },
+                        tabCompletion: 'on',
+                    });
+                    ed.monaco = editor;
+
+                    const aturTinggi = () => { tempat.style.height = editor.getContentHeight() + 'px'; };
+                    editor.onDidContentSizeChange(aturTinggi);
+                    aturTinggi();
+
+                    editor.onDidChangeModelContent(() => {
+                        area.value = editor.getValue();
+                        clearTimeout(jeda);
+                        jeda = setTimeout(ed.periksa, 300);
+                    });
+
+                    editor.addAction({
+                        id: 'belajar.jalankan',
+                        label: 'Jalankan kode',
+                        keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+                        run: () => jalankan(),
+                    });
+                    editor.addAction({
+                        id: 'belajar.rapikan',
+                        label: 'Rapikan kode',
+                        keybindings: [monaco.KeyMod.Shift | monaco.KeyMod.Alt | monaco.KeyCode.KeyF],
+                        contextMenuGroupId: 'navigation',
+                        run: () => { ed.rapikan(); },
+                    });
+
+                    ed.periksa();
+                };
+
+                sesuaikanTinggi();
+                return ed;
+            }
+
+            // ---------- Satu kotak contoh ----------
+
+            function siapkanContoh(contoh) {
+                const pratinjau = contoh.querySelector('.pratinjau');
+                const sumber = contoh.querySelector('script.kode');
+                // innerHTML menulis atribut boolean sebagai novalidate="", jadi dirapikan dulu
+                const htmlAwal = pratinjau ? rapikan(pratinjau.innerHTML.replace(/=""/g, '')) : null;
+                const jsAwal = rapikan(sumber.textContent);
+
+                const kiri = document.createElement('div');
+                kiri.className = 'kolom-kode';
+                const kanan = document.createElement('div');
+                kanan.className = 'kolom-hasil';
+
+                // ---- Console buatan sendiri ----
+                const kotakKonsol = document.createElement('div');
+                kotakKonsol.className = 'konsol';
+                kotakKonsol.setAttribute('role', 'log');
+
+                function kosongkan() {
+                    kotakKonsol.innerHTML = '<div class="baris-konsol kosong">Belum ada output.</div>';
+                }
+
+                function tambahBaris(jenis) {
+                    kotakKonsol.querySelector('.kosong')?.remove();
+                    const baris = document.createElement('div');
+                    baris.className = 'baris-konsol ' + jenis;
+                    kotakKonsol.append(baris);
+                    kotakKonsol.scrollTop = kotakKonsol.scrollHeight;
+                    return baris;
+                }
+
+                function tulis(jenis, nilai) {
+                    tambahBaris(jenis).textContent = nilai.map(v => format(v)).join(' ');
+                }
+
+                function tulisError(error) {
+                    const nama = error && error.name ? error.name : 'Error';
+                    const pesan = error && error.message !== undefined ? error.message : String(error);
+                    tambahBaris('error').textContent = `✖ ${nama}: ${pesan}`;
+                }
+
+                function tulisTabel(data) {
+                    if (!data || typeof data !== 'object') return tulis('log', [data]);
+                    const baris = Object.entries(data);
+                    const kolom = [...new Set(baris.flatMap(([, v]) =>
+                        v && typeof v === 'object' ? Object.keys(v) : ['Nilai']))];
+                    const tabel = document.createElement('table');
+                    const kepala = tabel.createTHead().insertRow();
+                    ['(index)', ...kolom].forEach(k => {
+                        const th = document.createElement('th');
+                        th.textContent = k;
+                        kepala.append(th);
+                    });
+                    const badan = tabel.createTBody();
+                    baris.forEach(([kunci, v]) => {
+                        const tr = badan.insertRow();
+                        tr.insertCell().textContent = kunci;
+                        kolom.forEach(k => {
+                            const objek = v && typeof v === 'object';
+                            const isi = objek ? v[k] : (k === 'Nilai' ? v : undefined);
+                            tr.insertCell().textContent = isi === undefined ? '' : format(isi, true);
+                        });
+                    });
+                    tambahBaris('log').append(tabel);
+                }
+
+                const konsol = {
+                    log: (...n) => tulis('log', n),
+                    info: (...n) => tulis('info', n),
+                    warn: (...n) => tulis('warn', n),
+                    error: (...n) => tulis('error', n),
+                    table: tulisTabel,
+                    clear: kosongkan,
+                };
+
+                // ---- Timer milik contoh ini, dihentikan setiap kali dijalankan ulang ----
+                const timer = new Set();
+                const aturTimeout = (fungsi, ms, ...arg) => {
+                    const id = setTimeout(() => {
+                        timer.delete(id);
+                        try { fungsi(...arg); } catch (error) { tulisError(error); }
+                    }, ms);
+                    timer.add(id);
+                    return id;
+                };
+                const aturInterval = (fungsi, ms, ...arg) => {
+                    const id = setInterval(() => {
+                        try { fungsi(...arg); } catch (error) { tulisError(error); }
+                    }, ms);
+                    timer.add(id);
+                    return id;
+                };
+
+                // ---- Editor dan tombol ----
+                const jalankanNanti = () => jalankan();
+                const editorHtml = htmlAwal !== null ? buatEditor(htmlAwal, 'html', jalankanNanti) : null;
+                const editorJs = buatEditor(jsAwal, 'javascript', jalankanNanti);
+                const editorKu = editorHtml ? [editorHtml, editorJs] : [editorJs];
+                semuaEditor.push(...editorKu);
+
+                if (editorHtml) kiri.append(buatJudul('HTML — bisa diedit'), editorHtml.wadah);
+                kiri.append(buatJudul('JavaScript — bisa diedit'), editorJs.wadah);
+
+                const toolbar = document.createElement('div');
+                toolbar.className = 'toolbar';
+                const buatTombol = (teks, kelas) => {
+                    const tombol = document.createElement('button');
+                    tombol.type = 'button';
+                    tombol.className = kelas;
+                    tombol.textContent = teks;
+                    return tombol;
+                };
+                const tombolJalan = buatTombol('▶ Jalankan', 'tombol-jalan');
+                const tombolRapikan = buatTombol('Rapikan', 'tombol-reset tombol-rapikan');
+                const tombolReset = buatTombol('Reset', 'tombol-reset');
+                const petunjuk = document.createElement('span');
+                petunjuk.className = 'petunjuk';
+                const teksPetunjuk = diMac
+                    ? '⌘ + Enter menjalankan · ⇧ + ⌥ + F merapikan'
+                    : 'Ctrl + Enter menjalankan · Shift + Alt + F merapikan';
+                petunjuk.textContent = teksPetunjuk;
+                toolbar.append(tombolJalan, tombolRapikan, tombolReset, petunjuk);
+                kiri.append(toolbar);
+
+                if (pratinjau) kanan.append(buatJudul('Hasil'), pratinjau);
+                kanan.append(buatJudul('Console'), kotakKonsol);
+
+                sumber.remove();
+                contoh.replaceChildren(kiri, kanan);
+
+                async function jalankan() {
+                    contohAktif = contoh;
+                    timer.forEach(id => { clearTimeout(id); clearInterval(id); });
+                    timer.clear();
+                    kosongkan();
+
+                    // HTML dipasang ulang dari editor: elemen baru, tanpa event listener lama
+                    if (pratinjau) pratinjau.innerHTML = editorHtml.ambil();
+
+                    let program;
+                    try {
+                        program = new AsyncFunction('console', 'setTimeout', 'setInterval', editorJs.ambil());
+                    } catch (error) {
+                        tulisError(error);
+                        return;
+                    }
+                    try {
+                        await program(konsol, aturTimeout, aturInterval);
+                    } catch (error) {
+                        tulisError(error);
+                    }
+                }
+
+                tombolJalan.addEventListener('click', jalankan);
+                tombolReset.addEventListener('click', () => {
+                    editorJs.isi(jsAwal);
+                    if (editorHtml) editorHtml.isi(htmlAwal);
+                    jalankan();
+                });
+                tombolRapikan.addEventListener('click', async () => {
+                    const hasil = await Promise.all(editorKu.map(ed => ed.rapikan()));
+                    if (hasil.every(Boolean)) return;
+                    petunjuk.textContent = 'Tidak bisa dirapikan: perbaiki dulu kesalahan penulisannya.';
+                    petunjuk.classList.add('gagal');
+                    setTimeout(() => {
+                        petunjuk.textContent = teksPetunjuk;
+                        petunjuk.classList.remove('gagal');
+                    }, 3000);
+                });
+
+                contoh.tulisError = tulisError;
+                jalankan();
+            }
+
+            document.querySelectorAll('.contoh').forEach(siapkanContoh);
+
+            // Error yang terjadi belakangan (misalnya di dalam event klik) ditulis ke console
+            // contoh yang terakhir disentuh atau dijalankan.
+            const tandaiAktif = event => {
+                const contoh = event.target.closest && event.target.closest('.contoh');
+                if (contoh) contohAktif = contoh;
+            };
+            document.addEventListener('pointerdown', tandaiAktif, true);
+            document.addEventListener('focusin', tandaiAktif, true);
+
+            window.addEventListener('error', event => {
+                // Error dari file lain (misalnya library dari CDN) bukan milik contoh
+                const dariHalamanIni = !event.filename || event.filename === location.href.split('#')[0];
+                if (!contohAktif || !dariHalamanIni || event.message === 'Script error.') return;
+                contohAktif.tulisError(event.error || new Error(event.message));
+            });
+            window.addEventListener('unhandledrejection', event => {
+                if (!contohAktif) return;
+                contohAktif.tulisError(event.reason);
+            });
+
+            // Lebar kolom berubah saat jendela diubah ukurannya, jadi tinggi textarea dihitung ulang
+            window.addEventListener('resize', () => {
+                semuaEditor.forEach(ed => { if (!ed.monaco) ed.sesuaikanTinggi(); });
+            });
+
+            // ---------- Memuat alat bantu dari CDN ----------
+
+            function muatScript(src) {
+                return new Promise((berhasil, gagal) => {
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.onload = berhasil;
+                    script.onerror = gagal;
+                    document.head.append(script);
+                });
+            }
+
+            function siapkanMonaco() {
+                monaco.editor.defineTheme('belajar', {
+                    base: 'vs-dark',
+                    inherit: true,
+                    rules: [{ token: 'comment', foreground: '8aa89b', fontStyle: 'italic' }],
+                    colors: {
+                        'editor.background': '#1d3029',
+                        'editor.foreground': '#e9f5e8',
+                        'editorLineNumber.foreground': '#56756a',
+                        'editorLineNumber.activeForeground': '#d9f18b',
+                        'editorCursor.foreground': '#d9f18b',
+                        'editor.selectionBackground': '#35604f',
+                        'editor.lineHighlightBackground': '#233a32',
+                        'editor.lineHighlightBorder': '#00000000',
+                        'editorWidget.background': '#203a31',
+                        'editorSuggestWidget.background': '#203a31',
+                        'editorSuggestWidget.selectedBackground': '#2f5446',
+                        'editorHoverWidget.background': '#203a31',
+                        'editorIndentGuide.background1': '#2a443a',
+                    },
+                });
+
+                const js = monaco.languages.typescript.javascriptDefaults;
+                js.setCompilerOptions({
+                    target: monaco.languages.typescript.ScriptTarget.ESNext,
+                    allowJs: true,
+                    allowNonTsExtensions: true,
+                    // Setiap kotak kode berdiri sendiri, jadi `const produk` di dua contoh tidak bentrok
+                    moduleDetection: 3,
+                });
+                // Pemeriksaan kesalahan dikerjakan ESLint; TypeScript hanya dipakai untuk autocomplete
+                js.setDiagnosticsOptions({
+                    noSemanticValidation: true,
+                    noSuggestionDiagnostics: true,
+                    noSyntaxValidation: Boolean(linter),
+                });
+                // Supaya hasil querySelector menawarkan .value, .style, .focus(), dan lainnya
+                js.addExtraLib(`
+                    type ElemenHTML = HTMLInputElement & HTMLFormElement;
+                    interface ParentNode {
+                        querySelector(selectors: string): ElemenHTML;
+                        querySelectorAll(selectors: string): NodeListOf<ElemenHTML>;
+                    }
+                `, 'file:///belajar-dom.d.ts');
+
+                // Editor diganti Monaco saat mendekati layar, supaya halaman tetap ringan
+                const pengamat = new IntersectionObserver(entri => {
+                    entri.forEach(e => {
+                        if (!e.isIntersecting) return;
+                        pengamat.unobserve(e.target);
+                        semuaEditor.find(ed => ed.wadah === e.target)?.naikkan();
+                    });
+                }, { rootMargin: '600px 0px' });
+                semuaEditor.forEach(ed => pengamat.observe(ed.wadah));
+            }
+
+            async function muatAlat() {
+                // Prettier dan ESLint dimuat lebih dulu, karena loader Monaco mengubah
+                // cara file JavaScript lain dimuat (AMD)
+                try {
+                    await muatScript(CDN + 'prettier@3.3.3/standalone.js');
+                    await Promise.all(['babel', 'estree', 'html', 'postcss'].map(nama =>
+                        muatScript(`${CDN}prettier@3.3.3/plugins/${nama}.js`)));
+                    document.body.classList.add('bisa-rapikan');
+                } catch {
+                    // Tanpa Prettier, tombol Rapikan tetap tersembunyi
+                }
+
+                try {
+                    await muatScript(CDN + 'eslint-linter-browserify@8.57.0/linter.min.js');
+                    siapkanLinter();
+                    semuaEditor.forEach(ed => ed.periksa());
+                } catch {
+                    // Tanpa ESLint, tidak ada pemeriksaan kesalahan
+                }
+
+                try {
+                    await muatScript(MONACO + '/vs/loader.js');
+                } catch {
+                    return;
+                }
+                // Worker Monaco dimuat dari CDN lewat data: URL supaya juga jalan dari file://
+                window.MonacoEnvironment = {
+                    getWorkerUrl: () => 'data:text/javascript;charset=utf-8,' + encodeURIComponent(
+                        `self.MonacoEnvironment = { baseUrl: '${MONACO}/' };` +
+                        `importScripts('${MONACO}/vs/base/worker/workerMain.js');`),
+                };
+                window.require.config({ paths: { vs: MONACO + '/vs' } });
+                window.require(['vs/editor/editor.main'], siapkanMonaco);
+            }
+
+            muatAlat();
+        })();
+    </script>
+</body>
+</html>

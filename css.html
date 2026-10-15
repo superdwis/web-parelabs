@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pelajaran lengkap CSS: setiap konsep ditulis dua kali, dengan CSS vanilla dan dengan Tailwind.">
+    <title>Belajar CSS — Vanilla &amp; Tailwind</title>
+
+    <!--
+        GAYA HALAMAN
+        Semua gaya halaman ini dibungkus @layer halaman. Urutan layer di baris pertama
+        menentukan siapa yang menang: base (reset Tailwind) < halaman < utilities (class Tailwind).
+        CSS contoh di tiap pelajaran ditulis TANPA layer, jadi selalu menang.
+    -->
+    <style>
+        @layer theme, base, halaman, components, utilities;
+
+        @layer halaman {
+            :root {
+                color-scheme: light;
+                --ink: #20302d;
+                --muted: #63716e;
+                --paper: #f5f7f2;
+                --card: #ffffff;
+                --green: #246b53;
+                --green-dark: #194d3d;
+                --lime: #d9f18b;
+                --line: #e2e9e2;
+                --code: #f0f4ed;
+                font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                margin: 0;
+                color: var(--ink);
+                background: var(--paper);
+                line-height: 1.65;
+            }
+
+            a {
+                color: var(--green);
+            }
+
+            a:focus-visible,
+            button:focus-visible,
+            input:focus-visible {
+                outline: 3px solid #a5cb59;
+                outline-offset: 3px;
+            }
+
+            .hero {
+                padding: 32px max(24px, calc((100% - 1240px) / 2)) 48px;
+                color: #fff;
+                background:
+                    radial-gradient(ellipse at 85% 15%, rgb(217 241 139 / 20%), transparent 30%),
+                    linear-gradient(135deg, #194d3d, #287457);
+            }
+
+            .topbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+                margin-bottom: 58px;
+            }
+
+            .brand {
+                color: #fff;
+                font-size: 1.05rem;
+                font-weight: 800;
+                letter-spacing: .02em;
+                text-decoration: none;
+            }
+
+            .topbar nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 22px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .topbar nav a {
+                color: #e3f0e8;
+                font-size: .9rem;
+                text-decoration: none;
+            }
+
+            .topbar nav a:hover {
+                color: var(--lime);
+            }
+
+            .eyebrow {
+                margin: 0 0 10px;
+                color: var(--lime);
+                font-size: .78rem;
+                font-weight: 800;
+                letter-spacing: .14em;
+                text-transform: uppercase;
+            }
+
+            .hero h1 {
+                max-width: 760px;
+                margin: 0;
+                font-size: clamp(2.5rem, 7vw, 5rem);
+                font-weight: 800;
+                letter-spacing: -.055em;
+                line-height: 1.05;
+            }
+
+            .hero-copy {
+                max-width: 640px;
+                margin: 20px 0 0;
+                color: #e0eee5;
+                font-size: 1.08rem;
+            }
+
+            .hero-note {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                margin-top: 26px;
+                padding: 9px 14px;
+                border: 1px solid rgb(255 255 255 / 25%);
+                border-radius: 999px;
+                color: #f4f8ec;
+                font-size: .88rem;
+            }
+
+            .hero-note span {
+                color: var(--lime);
+            }
+
+            .layout {
+                display: grid;
+                grid-template-columns: 210px minmax(0, 1fr);
+                gap: 34px;
+                max-width: 1240px;
+                margin: 0 auto;
+                padding: 42px 24px 70px;
+            }
+
+            .sidebar {
+                position: sticky;
+                top: 24px;
+                align-self: start;
+                max-height: calc(100vh - 48px);
+                overflow-y: auto;
+            }
+
+            .sidebar p {
+                margin: 0 0 12px;
+                color: var(--muted);
+                font-size: .75rem;
+                font-weight: 800;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+            }
+
+            .sidebar ol {
+                display: grid;
+                gap: 2px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .sidebar a {
+                display: block;
+                padding: 6px 10px;
+                border-radius: 8px;
+                color: #495953;
+                font-size: .88rem;
+                text-decoration: none;
+            }
+
+            .sidebar a:hover {
+                color: var(--green-dark);
+                background: #e8eee4;
+            }
+
+            main {
+                min-width: 0;
+            }
+
+            .intro {
+                margin: 0 0 26px;
+                color: var(--muted);
+            }
+
+            .bagian {
+                margin: 34px 0 14px;
+                color: var(--green-dark);
+                font-size: .8rem;
+                font-weight: 800;
+                letter-spacing: .14em;
+                text-transform: uppercase;
+            }
+
+            .lesson {
+                margin: 0 0 20px;
+                padding: clamp(20px, 4vw, 32px);
+                border: 1px solid var(--line);
+                border-radius: 16px;
+                background: var(--card);
+                box-shadow: 0 8px 24px rgb(32 48 45 / 3%);
+                scroll-margin-top: 20px;
+            }
+
+            .lesson-heading {
+                display: flex;
+                align-items: flex-start;
+                gap: 14px;
+                margin-bottom: 18px;
+            }
+
+            .lesson-number {
+                display: grid;
+                flex: 0 0 38px;
+                width: 38px;
+                height: 38px;
+                place-items: center;
+                border-radius: 12px;
+                color: var(--green-dark);
+                background: #e8f2da;
+                font-size: .88rem;
+                font-weight: 800;
+            }
+
+            .lesson h2 {
+                margin: 0;
+                font-size: 1.3rem;
+                font-weight: 700;
+                letter-spacing: -.025em;
+                line-height: 1.35;
+            }
+
+            .lesson-heading p {
+                margin: 4px 0 0;
+                color: var(--muted);
+                font-size: .91rem;
+            }
+
+            .teks {
+                max-width: 78ch;
+                margin: 0 0 16px;
+            }
+
+            ul.teks,
+            ol.teks {
+                padding-left: 22px;
+            }
+
+            ul.teks {
+                list-style: disc;
+            }
+
+            ol.teks {
+                list-style: decimal;
+            }
+
+            .teks li + li {
+                margin-top: 4px;
+            }
+
+            .catatan {
+                margin: 16px 0 0;
+                padding: 12px 16px;
+                border-left: 3px solid #a5cb59;
+                border-radius: 0 10px 10px 0;
+                color: #43554d;
+                background: #f6f9f0;
+                font-size: .92rem;
+            }
+
+            .banding {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+            }
+
+            .sisi {
+                min-width: 0;
+                padding: 14px;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                background: #fbfcf9;
+            }
+
+            .label {
+                display: inline-block;
+                margin: 0 0 10px;
+                padding: 3px 10px;
+                border-radius: 999px;
+                font-size: .74rem;
+                font-weight: 800;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+            }
+
+            .label.vanilla {
+                color: #7a4b06;
+                background: #fdecc8;
+            }
+
+            .label.tailwind {
+                color: #0b5878;
+                background: #d6f0fb;
+            }
+
+            .hasil {
+                padding: 16px;
+                border: 1px dashed #cfd9d0;
+                border-radius: 10px;
+                background: #fff;
+            }
+
+            .nama-kode {
+                margin: 12px 0 4px;
+                color: var(--muted);
+                font-size: .72rem;
+                font-weight: 800;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+            }
+
+            code {
+                padding: 2px 6px;
+                border-radius: 5px;
+                background: var(--code);
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: .9em;
+            }
+
+            pre {
+                overflow-x: auto;
+                margin: 0;
+                padding: 14px 16px;
+                border-radius: 10px;
+                background: #1d3029;
+                color: #e9f5e8;
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: .82rem;
+                line-height: 1.55;
+                tab-size: 4;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+            }
+
+            pre code {
+                padding: 0;
+                background: none;
+                font-size: inherit;
+            }
+
+            .editor {
+                display: block;
+                width: 100%;
+                margin: 0;
+                padding: 14px 16px;
+                border: 2px solid transparent;
+                border-radius: 10px;
+                background: #1d3029;
+                color: #e9f5e8;
+                caret-color: var(--lime);
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: .82rem;
+                line-height: 1.55;
+                tab-size: 4;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+                overflow: hidden;
+                resize: none;
+            }
+
+            .editor:hover {
+                border-color: #3d5a4f;
+            }
+
+            .editor:focus {
+                border-color: #a5cb59;
+                outline: none;
+            }
+
+            .kepala-sisi {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .tombol-reset {
+                padding: 3px 10px;
+                border: 1px solid #cfd9d0;
+                border-radius: 999px;
+                color: var(--muted);
+                background: #fff;
+                font: inherit;
+                font-size: .76rem;
+                cursor: pointer;
+            }
+
+            .tombol-reset:hover {
+                color: var(--green-dark);
+                border-color: var(--green);
+            }
+
+            .tombol-reset[hidden] {
+                display: none;
+            }
+
+            .table-wrap {
+                overflow-x: auto;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: left;
+                font-size: .92rem;
+            }
+
+            th,
+            td {
+                padding: 9px 14px;
+                border-top: 1px solid var(--line);
+                vertical-align: top;
+            }
+
+            thead {
+                background: #edf3e9;
+            }
+
+            thead th {
+                border-top: 0;
+                color: #33483e;
+                font-size: .86rem;
+            }
+
+            .page-footer {
+                padding: 26px 24px 40px;
+                color: var(--muted);
+                font-size: .88rem;
+                text-align: center;
+            }
+
+            @media (max-width: 1020px) {
+                .banding {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+            }
+
+            @media (max-width: 760px) {
+                .layout {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+
+                .sidebar {
+                    position: static;
+                    max-height: none;
+                }
+
+                .sidebar ol {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+
+                .topbar {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-bottom: 36px;
+                }
+            }
+        }
+    </style>
+
+    <!--
+        TAILWIND
+        Cara tercepat untuk belajar: satu tag <script>. Setelah itu class seperti
+        "bg-emerald-700" langsung bisa dipakai di HTML. (Lihat pelajaran 01 dan 16.)
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @import "tailwindcss";
+
+        /* Warna buatan sendiri, dipakai di pelajaran 16 */
+        @theme {
+            --color-merek: #246b53;
+            --color-merek-muda: #d9f18b;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="hero">
+        <div class="topbar">
+            <a class="brand" href="index.html">Belajar Web</a>
+            <nav aria-label="Navigasi utama">
+                <ul>
+                    <li><a href="html.html">Pelajaran HTML</a></li>
+                    <li><a href="javascript.html">Pelajaran JavaScript</a></li>
+                    <li><a href="#flexbox">Flexbox</a></li>
+                    <li><a href="#proyek">Proyek mini</a></li>
+                    <li><a href="#kanvas">Kanvas bebas</a></li>
+                </ul>
+            </nav>
+        </div>
+        <p class="eyebrow">Pelajaran CSS</p>
+        <h1>CSS Vanilla &amp; Tailwind</h1>
+        <p class="hero-copy">HTML menyusun isi halaman, CSS mengatur tampilannya. Di sini setiap konsep dikerjakan dua kali — dengan CSS biasa dan dengan Tailwind — supaya terlihat bahwa keduanya menghasilkan hal yang sama.</p>
+        <p class="hero-note"><span>●</span> 18 pelajaran, semua kodenya bisa diedit langsung di halaman ini</p>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <p>Daftar pelajaran</p>
+            <ol>
+                <li><a href="#pengenalan">01 Pengenalan</a></li>
+                <li><a href="#selector">02 Selector</a></li>
+                <li><a href="#cascade">03 Cascade</a></li>
+                <li><a href="#warna">04 Warna</a></li>
+                <li><a href="#tipografi">05 Tipografi</a></li>
+                <li><a href="#satuan">06 Satuan &amp; ukuran</a></li>
+                <li><a href="#box-model">07 Box model</a></li>
+                <li><a href="#border">08 Border &amp; bayangan</a></li>
+                <li><a href="#display">09 Display</a></li>
+                <li><a href="#flexbox">10 Flexbox</a></li>
+                <li><a href="#grid">11 Grid</a></li>
+                <li><a href="#position">12 Position</a></li>
+                <li><a href="#state">13 Hover &amp; state</a></li>
+                <li><a href="#animasi">14 Transisi &amp; animasi</a></li>
+                <li><a href="#responsif">15 Responsif</a></li>
+                <li><a href="#variabel">16 Variabel &amp; tema</a></li>
+                <li><a href="#proyek">17 Proyek mini</a></li>
+                <li><a href="#ringkasan">18 Ringkasan</a></li>
+                <li><a href="#kanvas">★ Kanvas bebas</a></li>
+            </ol>
+        </aside>
+
+        <main>
+            <p class="intro">Cara membaca: kotak kiri berlabel <strong>CSS Vanilla</strong>, kotak kanan berlabel <strong>Tailwind</strong>. Bagian putih bergaris putus-putus adalah hasilnya, dan kotak gelap di bawahnya adalah kodenya. <strong>Kodenya bisa diedit:</strong> klik di dalam kotak gelap, ubah apa saja, dan hasilnya langsung berubah. Tombol <strong>Reset</strong> mengembalikan contoh ke kode semula.</p>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian A — Dasar</p>
+
+            <section class="lesson" id="pengenalan">
+                <div class="lesson-heading">
+                    <span class="lesson-number">01</span>
+                    <div>
+                        <h2>Pengenalan: apa itu CSS dan cara memasangnya</h2>
+                        <p>Aturan CSS, tiga tempat menulisnya, dan cara memasang Tailwind.</p>
+                    </div>
+                </div>
+
+                <p class="teks">CSS (Cascading Style Sheets) adalah bahasa untuk mengatur tampilan HTML: warna, ukuran, jarak, dan tata letak. Satu aturan CSS terdiri dari <strong>selector</strong> (elemen mana yang dipilih) dan satu atau lebih <strong>deklarasi</strong> berupa pasangan <code>properti: nilai;</code>.</p>
+
+                <pre><code>/* selector   properti     nilai */
+   h1       { color:       green;
+              font-size:   32px; }</code></pre>
+
+                <p class="teks" style="margin-top: 18px;">CSS vanilla bisa ditulis di tiga tempat:</p>
+
+                <pre><code>&lt;!-- 1. Inline: langsung di atribut style. Cepat, tapi sulit dirawat. --&gt;
+&lt;h1 style="color: green;"&gt;Judul&lt;/h1&gt;
+
+&lt;!-- 2. Internal: di dalam tag &lt;style&gt; pada &lt;head&gt;. Cocok untuk latihan satu file. --&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        h1 { color: green; }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;!-- 3. Eksternal: file .css terpisah. Ini yang dipakai di proyek sungguhan. --&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;</code></pre>
+
+                <p class="teks" style="margin-top: 18px;"><strong>Tailwind</strong> adalah kumpulan class siap pakai. Setiap class mewakili satu deklarasi CSS: <code>text-green-700</code> berarti <code>color: hijau</code>, <code>p-4</code> berarti <code>padding: 1rem</code>. Kamu tidak menulis file CSS, cukup menempel class di HTML. Untuk belajar, pasang dengan satu baris:</p>
+
+                <pre><code>&lt;head&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1 class="text-3xl font-bold text-green-700"&gt;Judul&lt;/h1&gt;
+&lt;/body&gt;</code></pre>
+
+                <p class="catatan">Dua hal yang perlu diingat. Pertama, tag script di atas hanya untuk belajar dan mencoba; di proyek sungguhan Tailwind dipasang lewat npm (Vite atau Tailwind CLI) supaya file CSS-nya kecil. Kedua, Tailwind membawa <strong>Preflight</strong>, yaitu reset yang menghapus gaya bawaan browser: margin heading dan paragraf jadi 0, bullet daftar hilang, tombol jadi polos. Karena halaman ini memuat Tailwind, contoh vanilla di sini juga menulis semua gayanya secara lengkap.</p>
+            </section>
+
+            <section class="lesson" id="selector">
+                <div class="lesson-heading">
+                    <span class="lesson-number">02</span>
+                    <div>
+                        <h2>Selector</h2>
+                        <p>Cara memilih elemen yang ingin diberi gaya.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Di CSS vanilla kamu memberi nama pada elemen (lewat <code>class</code> atau <code>id</code>), lalu menulis aturan untuk nama itu. Di Tailwind langkah memberi nama dilewati: gaya langsung ditempel sebagai class.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <p class="penting">Class "penting"</p>
+                            <p class="penting besar">Dua class: "penting" dan "besar"</p>
+                            <p id="unik">Id "unik"</p>
+                            <ul class="daftar-menu">
+                                <li>Item daftar</li>
+                                <li><a href="#selector" target="_blank">Link tab baru</a></li>
+                                <li><a href="#selector">Link biasa</a></li>
+                            </ul>
+                        </div>
+                        <style class="sumber">
+                            /* Class: diawali titik, boleh dipakai banyak elemen */
+                            .penting {
+                                color: #b91c1c;
+                                font-weight: 700;
+                            }
+
+                            .besar {
+                                font-size: 1.25rem;
+                            }
+
+                            /* Id: diawali pagar, hanya untuk satu elemen */
+                            #unik {
+                                color: #1d4ed8;
+                            }
+
+                            /* Turunan: semua <li> di dalam .daftar-menu */
+                            .daftar-menu li {
+                                padding: 4px 0;
+                            }
+
+                            /* Atribut: hanya <a> yang punya target="_blank" */
+                            .daftar-menu a[target="_blank"] {
+                                color: #b45309;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <p class="font-bold text-red-700">Merah dan tebal</p>
+                            <p class="text-xl font-bold text-red-700">Merah, tebal, dan besar</p>
+                            <p class="text-blue-700">Biru</p>
+                            <ul>
+                                <li class="py-1">Item daftar</li>
+                                <li class="py-1"><a class="text-amber-700" href="#selector" target="_blank">Link tab baru</a></li>
+                                <li class="py-1"><a href="#selector">Link biasa</a></li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Selector elemen tanpa awalan, misalnya <code>p { color: red; }</code>, mengenai <em>semua</em> paragraf di halaman. Selector lain yang sering dipakai: <code>h1, h2</code> (beberapa sekaligus), <code>.a.b</code> (punya dua class), <code>.induk &gt; .anak</code> (anak langsung), dan <code>*</code> (semua elemen).</p>
+            </section>
+
+            <section class="lesson" id="cascade">
+                <div class="lesson-heading">
+                    <span class="lesson-number">03</span>
+                    <div>
+                        <h2>Cascade, specificity, dan pewarisan</h2>
+                        <p>Aturan mana yang menang ketika dua aturan mengenai elemen yang sama.</p>
+                    </div>
+                </div>
+
+                <ul class="teks">
+                    <li><strong>Specificity:</strong> selector yang lebih spesifik menang. Urutannya: inline <code>style</code> &gt; id &gt; class &gt; elemen.</li>
+                    <li><strong>Urutan:</strong> kalau specificity sama, aturan yang ditulis paling akhir menang.</li>
+                    <li><strong>Pewarisan:</strong> properti teks seperti <code>color</code> dan <code>font-size</code> turun dari induk ke anak. Properti kotak seperti <code>padding</code> dan <code>border</code> tidak.</li>
+                </ul>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="kartu-teks">
+                                <p>Teks ini mewarisi warna hijau dari induknya.</p>
+                                <p class="abu">Class "abu" menimpa warisan.</p>
+                                <p class="abu merah">"merah" ditulis setelah "abu", jadi menang.</p>
+                                <p class="abu merah" id="biru">Id mengalahkan semua class.</p>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            .kartu-teks {
+                                color: #047857;
+                            }
+
+                            .abu {
+                                color: #475569;
+                            }
+
+                            /* Specificity sama dengan .abu, menang karena urutan */
+                            .merah {
+                                color: #b91c1c;
+                            }
+
+                            /* Id lebih spesifik daripada class */
+                            #biru {
+                                color: #1d4ed8;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="text-emerald-700">
+                                <p>Teks ini mewarisi warna hijau dari induknya.</p>
+                                <p class="text-slate-600">Class pada elemen menimpa warisan.</p>
+                                <p class="text-red-700">Satu properti, satu class. Jangan pasang dua warna.</p>
+                                <p class="text-red-700 text-blue-700!">Tanda seru di akhir = !important.</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Semua class Tailwind punya specificity yang sama, jadi masalah "aturan mana yang menang" hampir tidak muncul. Kalau dua class mengatur properti yang sama (<code>text-red-700 text-blue-700</code>), hasilnya bergantung pada urutan di file CSS Tailwind, bukan urutan di HTML. Karena itu pakai satu saja.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian B — Tampilan</p>
+
+            <section class="lesson" id="warna">
+                <div class="lesson-heading">
+                    <span class="lesson-number">04</span>
+                    <div>
+                        <h2>Warna dan background</h2>
+                        <p>Warna teks, warna latar, dan gradasi.</p>
+                    </div>
+                </div>
+
+                <p class="teks">CSS menerima warna dalam beberapa format: nama (<code>tomato</code>), hex (<code>#047857</code>), <code>rgb()</code>, dan <code>hsl()</code>. Tailwind menyediakan palet bernama dengan tingkat 50 (paling terang) sampai 950 (paling gelap), dipakai dengan awalan <code>text-</code> untuk teks dan <code>bg-</code> untuk latar.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <p class="teks-nama">Warna dengan nama</p>
+                            <p class="teks-hex">Warna dengan hex</p>
+                            <p class="latar-rgb">Latar rgb dengan transparansi</p>
+                            <p class="latar-gradasi">Latar gradasi</p>
+                        </div>
+                        <style class="sumber">
+                            .teks-nama {
+                                color: tomato;
+                            }
+
+                            .teks-hex {
+                                color: #047857;
+                            }
+
+                            .latar-rgb {
+                                /* angka terakhir = tingkat transparansi */
+                                background-color: rgb(4 120 87 / 15%);
+                            }
+
+                            .latar-gradasi {
+                                color: white;
+                                background: linear-gradient(to right, #047857, #84cc16);
+                            }
+
+                            .latar-rgb,
+                            .latar-gradasi {
+                                margin-top: 8px;
+                                padding: 8px 12px;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <p class="text-red-500">Warna dari palet</p>
+                            <p class="text-[#047857]">Warna bebas dengan kurung siku</p>
+                            <p class="mt-2 bg-emerald-700/15 px-3 py-2">Latar dengan transparansi</p>
+                            <p class="mt-2 bg-linear-to-r from-emerald-700 to-lime-500 px-3 py-2 text-white">Latar gradasi</p>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Kurung siku seperti <code>text-[#047857]</code> atau <code>w-[220px]</code> adalah jalan keluar ketika nilai yang kamu butuhkan tidak ada di skala Tailwind.</p>
+            </section>
+
+            <section class="lesson" id="tipografi">
+                <div class="lesson-heading">
+                    <span class="lesson-number">05</span>
+                    <div>
+                        <h2>Tipografi</h2>
+                        <p>Ukuran, ketebalan, jenis huruf, perataan, dan dekorasi teks.</p>
+                    </div>
+                </div>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <h3 class="judul-artikel">Judul Artikel</h3>
+                            <p class="kategori">Kategori</p>
+                            <p class="isi-artikel">Paragraf dengan jarak antarbaris yang lega supaya nyaman dibaca saat teksnya panjang.</p>
+                            <p class="kutipan">Teks miring di tengah</p>
+                            <p class="harga-lama">Rp 150.000</p>
+                        </div>
+                        <style class="sumber">
+                            .judul-artikel {
+                                font-family: Georgia, serif;
+                                font-size: 1.5rem;
+                                font-weight: 700;
+                            }
+
+                            .kategori {
+                                font-size: 0.75rem;
+                                letter-spacing: 0.1em;
+                                text-transform: uppercase;
+                            }
+
+                            .isi-artikel {
+                                line-height: 1.8;
+                            }
+
+                            .kutipan {
+                                font-style: italic;
+                                text-align: center;
+                            }
+
+                            .harga-lama {
+                                text-decoration: line-through;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <h3 class="font-serif text-2xl font-bold">Judul Artikel</h3>
+                            <p class="text-xs tracking-widest uppercase">Kategori</p>
+                            <p class="leading-7">Paragraf dengan jarak antarbaris yang lega supaya nyaman dibaca saat teksnya panjang.</p>
+                            <p class="text-center italic">Teks miring di tengah</p>
+                            <p class="line-through">Rp 150.000</p>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Skala ukuran teks Tailwind: <code>text-xs</code> 12px, <code>text-sm</code> 14px, <code>text-base</code> 16px, <code>text-lg</code> 18px, <code>text-xl</code> 20px, <code>text-2xl</code> 24px, <code>text-3xl</code> 30px. Ketebalan: <code>font-normal</code> 400, <code>font-medium</code> 500, <code>font-semibold</code> 600, <code>font-bold</code> 700.</p>
+            </section>
+
+            <section class="lesson" id="satuan">
+                <div class="lesson-heading">
+                    <span class="lesson-number">06</span>
+                    <div>
+                        <h2>Satuan dan ukuran</h2>
+                        <p>px, rem, persen, dan skala angka Tailwind.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap" style="margin-bottom: 16px;">
+                    <table>
+                        <thead>
+                            <tr><th>Satuan</th><th>Artinya</th><th>Kapan dipakai</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>px</code></td><td>Piksel, ukuran tetap</td><td>Border, bayangan, detail kecil</td></tr>
+                            <tr><td><code>rem</code></td><td>Kelipatan ukuran huruf halaman (1rem = 16px)</td><td>Ukuran huruf, padding, margin</td></tr>
+                            <tr><td><code>em</code></td><td>Kelipatan ukuran huruf elemen itu sendiri</td><td>Jarak yang ikut membesar bersama teks</td></tr>
+                            <tr><td><code>%</code></td><td>Persentase dari induk</td><td>Lebar kolom</td></tr>
+                            <tr><td><code>vw</code> / <code>vh</code></td><td>Persentase lebar / tinggi layar</td><td>Bagian setinggi layar penuh</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="teks">Angka di Tailwind adalah kelipatan <strong>0.25rem (4px)</strong>. Jadi <code>w-40</code> = 40 × 4px = 160px, <code>p-4</code> = 16px, <code>mt-2</code> = 8px. Rumusnya: angka dibagi 4 sama dengan rem.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="batang lebar-px">160px</div>
+                            <div class="batang lebar-rem">10rem</div>
+                            <div class="batang lebar-persen">50%</div>
+                            <div class="batang lebar-penuh">100%</div>
+                        </div>
+                        <style class="sumber">
+                            .batang {
+                                margin-bottom: 6px;
+                                padding: 4px 8px;
+                                color: white;
+                                background: #047857;
+                            }
+
+                            .lebar-px {
+                                width: 160px;
+                            }
+
+                            .lebar-rem {
+                                width: 10rem;
+                            }
+
+                            .lebar-persen {
+                                width: 50%;
+                            }
+
+                            .lebar-penuh {
+                                width: 100%;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="mb-1.5 w-[160px] bg-emerald-700 px-2 py-1 text-white">w-[160px]</div>
+                            <div class="mb-1.5 w-40 bg-emerald-700 px-2 py-1 text-white">w-40</div>
+                            <div class="mb-1.5 w-1/2 bg-emerald-700 px-2 py-1 text-white">w-1/2</div>
+                            <div class="mb-1.5 w-full bg-emerald-700 px-2 py-1 text-white">w-full</div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Awalan ukuran yang lain: <code>h-</code> (tinggi), <code>size-</code> (lebar dan tinggi sekaligus), <code>min-w-</code>, <code>max-w-</code>, <code>min-h-</code>, dan <code>h-screen</code> (setinggi layar).</p>
+            </section>
+
+            <section class="lesson" id="box-model">
+                <div class="lesson-heading">
+                    <span class="lesson-number">07</span>
+                    <div>
+                        <h2>Box model: padding, border, margin</h2>
+                        <p>Setiap elemen adalah kotak yang berlapis.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Dari dalam ke luar: <strong>isi</strong> → <strong>padding</strong> (jarak isi ke garis tepi) → <strong>border</strong> (garis tepi) → <strong>margin</strong> (jarak ke elemen lain). Dengan <code>box-sizing: border-box</code>, nilai <code>width</code> sudah termasuk padding dan border, sehingga ukuran kotak lebih mudah dihitung.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="kotak">Kotak pertama</div>
+                            <div class="kotak kotak-jarak">Kotak kedua, margin atas 24px</div>
+                            <div class="kotak kotak-sisi">Padding berbeda tiap sisi</div>
+                        </div>
+                        <style class="sumber">
+                            .kotak {
+                                box-sizing: border-box;
+                                width: 240px;
+                                padding: 16px;
+                                border: 4px solid #047857;
+                                background: #d1fae5;
+                            }
+
+                            .kotak-jarak {
+                                margin-top: 24px;
+                            }
+
+                            .kotak-sisi {
+                                margin-top: 24px;
+                                /* atas kanan bawah kiri */
+                                padding: 4px 8px 4px 40px;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="w-60 border-4 border-emerald-700 bg-emerald-100 p-4">Kotak pertama</div>
+                            <div class="mt-6 w-60 border-4 border-emerald-700 bg-emerald-100 p-4">Kotak kedua, margin atas 24px</div>
+                            <div class="mt-6 w-60 border-4 border-emerald-700 bg-emerald-100 py-1 pr-2 pl-10">Padding berbeda tiap sisi</div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Pola nama di Tailwind: <code>p</code> = padding, <code>m</code> = margin, lalu arah: <code>t</code> atas, <code>r</code> kanan, <code>b</code> bawah, <code>l</code> kiri, <code>x</code> kiri-kanan, <code>y</code> atas-bawah. Contoh: <code>px-4</code>, <code>mb-2</code>, <code>mx-auto</code> (menengahkan kotak). Tailwind sudah memakai <code>border-box</code> untuk semua elemen.</p>
+            </section>
+
+            <section class="lesson" id="border">
+                <div class="lesson-heading">
+                    <span class="lesson-number">08</span>
+                    <div>
+                        <h2>Border, sudut, bayangan, dan transparansi</h2>
+                        <p>Detail yang membuat kotak terlihat seperti kartu atau tombol.</p>
+                    </div>
+                </div>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="deret-kartu">
+                                <div class="kartu-garis">Garis putus</div>
+                                <div class="kartu-bulat">Sudut bulat</div>
+                                <div class="kartu-bayang">Bayangan</div>
+                                <div class="kartu-pudar">Pudar</div>
+                                <div class="lingkaran">A</div>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            .deret-kartu {
+                                display: flex;
+                                flex-wrap: wrap;
+                                align-items: center;
+                                gap: 12px;
+                            }
+
+                            .deret-kartu div {
+                                padding: 12px;
+                                background: #f1f5f9;
+                            }
+
+                            .kartu-garis {
+                                border: 2px dashed #475569;
+                            }
+
+                            .kartu-bulat {
+                                border-radius: 12px;
+                            }
+
+                            .kartu-bayang {
+                                border-radius: 12px;
+                                box-shadow: 0 10px 15px rgb(0 0 0 / 15%);
+                            }
+
+                            .kartu-pudar {
+                                opacity: 0.4;
+                            }
+
+                            .lingkaran {
+                                width: 48px;
+                                height: 48px;
+                                border-radius: 50%;
+                                text-align: center;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <div class="border-2 border-dashed border-slate-600 bg-slate-100 p-3">Garis putus</div>
+                                <div class="rounded-xl bg-slate-100 p-3">Sudut bulat</div>
+                                <div class="rounded-xl bg-slate-100 p-3 shadow-lg">Bayangan</div>
+                                <div class="bg-slate-100 p-3 opacity-40">Pudar</div>
+                                <div class="size-12 rounded-full bg-slate-100 p-3 text-center">A</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Di Tailwind, class <code>border</code> saja hanya membuat garis 1px dengan warna teks. Tambahkan warnanya sendiri, misalnya <code>border border-slate-300</code>. Tingkat sudut: <code>rounded-sm</code>, <code>rounded-md</code>, <code>rounded-lg</code>, <code>rounded-xl</code>, <code>rounded-full</code>. Tingkat bayangan: <code>shadow-sm</code>, <code>shadow-md</code>, <code>shadow-lg</code>, <code>shadow-xl</code>.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian C — Tata letak</p>
+
+            <section class="lesson" id="display">
+                <div class="lesson-heading">
+                    <span class="lesson-number">09</span>
+                    <div>
+                        <h2>Display: block, inline, inline-block, none</h2>
+                        <p>Bagaimana sebuah elemen menempati ruang.</p>
+                    </div>
+                </div>
+
+                <ul class="teks">
+                    <li><strong>block</strong>: mengambil satu baris penuh, bisa diberi lebar dan tinggi. Bawaan <code>div</code>, <code>p</code>, <code>h1</code>.</li>
+                    <li><strong>inline</strong>: mengalir di dalam baris teks, lebar dan tinggi diabaikan. Bawaan <code>span</code>, <code>a</code>.</li>
+                    <li><strong>inline-block</strong>: sebaris seperti inline, tapi bisa diberi lebar dan tinggi.</li>
+                    <li><strong>none</strong>: elemen hilang dan tidak memakan tempat.</li>
+                </ul>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <span class="tanda jadi-block">block</span>
+                            <span class="tanda jadi-inline">inline</span>
+                            <span class="tanda jadi-inline">inline</span>
+                            <span class="tanda jadi-inline-block">inline-block</span>
+                            <span class="tanda jadi-hilang">tidak terlihat</span>
+                        </div>
+                        <style class="sumber">
+                            .tanda {
+                                padding: 4px 8px;
+                                background: #fef3c7;
+                                border: 1px solid #fbbf24;
+                            }
+
+                            .jadi-block {
+                                display: block;
+                                margin-bottom: 8px;
+                            }
+
+                            .jadi-inline {
+                                display: inline;
+                                width: 200px; /* diabaikan */
+                            }
+
+                            .jadi-inline-block {
+                                display: inline-block;
+                                width: 200px; /* berlaku */
+                            }
+
+                            .jadi-hilang {
+                                display: none;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <span class="mb-2 block border border-amber-400 bg-amber-100 px-2 py-1">block</span>
+                            <span class="inline w-50 border border-amber-400 bg-amber-100 px-2 py-1">inline</span>
+                            <span class="inline w-50 border border-amber-400 bg-amber-100 px-2 py-1">inline</span>
+                            <span class="inline-block w-50 border border-amber-400 bg-amber-100 px-2 py-1">inline-block</span>
+                            <span class="hidden border border-amber-400 bg-amber-100 px-2 py-1">tidak terlihat</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="lesson" id="flexbox">
+                <div class="lesson-heading">
+                    <span class="lesson-number">10</span>
+                    <div>
+                        <h2>Flexbox</h2>
+                        <p>Menyusun elemen dalam satu arah: baris atau kolom.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Beri <code>display: flex</code> pada <strong>induk</strong>, maka anak-anaknya berjajar. <code>justify-content</code> mengatur posisi di sumbu utama (mendatar, kalau arahnya baris), <code>align-items</code> mengatur sumbu silang (tegak), dan <code>gap</code> memberi jarak antar anak.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <nav class="navbar">
+                                <strong>Logo</strong>
+                                <div class="navbar-menu">
+                                    <a href="#flexbox">Beranda</a>
+                                    <a href="#flexbox">Produk</a>
+                                    <a href="#flexbox">Kontak</a>
+                                </div>
+                            </nav>
+
+                            <div class="baris-flex">
+                                <div class="item-flex">Tetap</div>
+                                <div class="item-flex item-melar">Mengisi sisa ruang</div>
+                                <div class="item-flex">Tetap</div>
+                            </div>
+
+                            <div class="tengah-flex">Tepat di tengah</div>
+                        </div>
+                        <style class="sumber">
+                            .navbar {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                padding: 12px 16px;
+                                color: white;
+                                background: #065f46;
+                            }
+
+                            .navbar-menu {
+                                display: flex;
+                                gap: 16px;
+                            }
+
+                            .navbar-menu a {
+                                color: white;
+                            }
+
+                            .baris-flex {
+                                display: flex;
+                                gap: 8px;
+                                margin-top: 12px;
+                            }
+
+                            .item-flex {
+                                padding: 8px;
+                                background: #d1fae5;
+                            }
+
+                            .item-melar {
+                                flex: 1;
+                            }
+
+                            .tengah-flex {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                height: 80px;
+                                margin-top: 12px;
+                                background: #f1f5f9;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <nav class="flex items-center justify-between bg-emerald-800 px-4 py-3 text-white">
+                                <strong>Logo</strong>
+                                <div class="flex gap-4">
+                                    <a class="text-white" href="#flexbox">Beranda</a>
+                                    <a class="text-white" href="#flexbox">Produk</a>
+                                    <a class="text-white" href="#flexbox">Kontak</a>
+                                </div>
+                            </nav>
+
+                            <div class="mt-3 flex gap-2">
+                                <div class="bg-emerald-100 p-2">Tetap</div>
+                                <div class="flex-1 bg-emerald-100 p-2">Mengisi sisa ruang</div>
+                                <div class="bg-emerald-100 p-2">Tetap</div>
+                            </div>
+
+                            <div class="mt-3 flex h-20 items-center justify-center bg-slate-100">Tepat di tengah</div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="table-wrap" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr><th>CSS</th><th>Tailwind</th><th>Fungsi</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>flex-direction: column</code></td><td><code>flex-col</code></td><td>Menyusun ke bawah</td></tr>
+                            <tr><td><code>justify-content: center</code></td><td><code>justify-center</code></td><td>Tengah di sumbu utama</td></tr>
+                            <tr><td><code>justify-content: space-between</code></td><td><code>justify-between</code></td><td>Ujung ke ujung, sisa ruang di antaranya</td></tr>
+                            <tr><td><code>align-items: center</code></td><td><code>items-center</code></td><td>Tengah di sumbu silang</td></tr>
+                            <tr><td><code>flex-wrap: wrap</code></td><td><code>flex-wrap</code></td><td>Pindah baris kalau tidak muat</td></tr>
+                            <tr><td><code>flex: 1</code></td><td><code>flex-1</code></td><td>Anak mengisi sisa ruang</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson" id="grid">
+                <div class="lesson-heading">
+                    <span class="lesson-number">11</span>
+                    <div>
+                        <h2>Grid</h2>
+                        <p>Menyusun elemen dalam baris dan kolom sekaligus.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Flexbox cocok untuk satu arah, grid untuk dua arah. Tentukan jumlah kolom di induk dengan <code>grid-template-columns</code>, lalu anak-anaknya mengisi sel satu per satu. Satuan <code>fr</code> berarti "satu bagian dari ruang yang tersisa".</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="galeri">
+                                <div class="sel sel-lebar">Lebar 2 kolom</div>
+                                <div class="sel">2</div>
+                                <div class="sel">3</div>
+                                <div class="sel">4</div>
+                                <div class="sel">5</div>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            .galeri {
+                                display: grid;
+                                /* tiga kolom sama lebar */
+                                grid-template-columns: repeat(3, 1fr);
+                                gap: 12px;
+                            }
+
+                            .sel {
+                                padding: 16px;
+                                color: #0369a1;
+                                background: #e0f2fe;
+                                text-align: center;
+                            }
+
+                            .sel-lebar {
+                                grid-column: span 2;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="col-span-2 bg-sky-100 p-4 text-center text-sky-700">Lebar 2 kolom</div>
+                                <div class="bg-sky-100 p-4 text-center text-sky-700">2</div>
+                                <div class="bg-sky-100 p-4 text-center text-sky-700">3</div>
+                                <div class="bg-sky-100 p-4 text-center text-sky-700">4</div>
+                                <div class="bg-sky-100 p-4 text-center text-sky-700">5</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Di sisi Tailwind, class yang sama diulang di setiap sel. Itu wajar: di proyek sungguhan pengulangan seperti ini dihilangkan dengan komponen (React, Vue, dan sejenisnya) atau perulangan di template, bukan dengan menulis CSS baru.</p>
+            </section>
+
+            <section class="lesson" id="position">
+                <div class="lesson-heading">
+                    <span class="lesson-number">12</span>
+                    <div>
+                        <h2>Position dan z-index</h2>
+                        <p>Mengeluarkan elemen dari alur biasa.</p>
+                    </div>
+                </div>
+
+                <ul class="teks">
+                    <li><strong>relative</strong>: tetap di tempatnya, tapi menjadi patokan bagi anak yang <code>absolute</code>.</li>
+                    <li><strong>absolute</strong>: ditempatkan terhadap induk terdekat yang punya position, lewat <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>.</li>
+                    <li><strong>sticky</strong>: ikut bergulir, lalu menempel ketika menyentuh batas yang ditentukan.</li>
+                    <li><strong>fixed</strong>: menempel pada layar dan tidak ikut bergulir.</li>
+                    <li><strong>z-index</strong>: menentukan elemen mana yang berada di depan ketika bertumpuk.</li>
+                </ul>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="kartu-produk">
+                                <span class="lencana">Baru</span>
+                                Kartu dengan lencana di pojok
+                            </div>
+
+                            <div class="area-gulir">
+                                <div class="judul-lengket">Judul menempel saat digulir</div>
+                                <p>Baris 1</p>
+                                <p>Baris 2</p>
+                                <p>Baris 3</p>
+                                <p>Baris 4</p>
+                                <p>Baris 5</p>
+                                <p>Baris 6</p>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            .kartu-produk {
+                                position: relative;
+                                padding: 24px 16px;
+                                background: #f1f5f9;
+                            }
+
+                            .lencana {
+                                position: absolute;
+                                top: -8px;
+                                right: -8px;
+                                z-index: 10;
+                                padding: 2px 10px;
+                                border-radius: 999px;
+                                color: white;
+                                background: #b91c1c;
+                                font-size: 0.75rem;
+                            }
+
+                            .area-gulir {
+                                height: 120px;
+                                margin-top: 16px;
+                                overflow-y: auto;
+                                border: 1px solid #cbd5e1;
+                            }
+
+                            .area-gulir p {
+                                padding: 4px 12px;
+                            }
+
+                            .judul-lengket {
+                                position: sticky;
+                                top: 0;
+                                padding: 6px 12px;
+                                color: white;
+                                background: #065f46;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="relative bg-slate-100 px-4 py-6">
+                                <span class="absolute -top-2 -right-2 z-10 rounded-full bg-red-700 px-2.5 py-0.5 text-xs text-white">Baru</span>
+                                Kartu dengan lencana di pojok
+                            </div>
+
+                            <div class="mt-4 h-30 overflow-y-auto border border-slate-300">
+                                <div class="sticky top-0 bg-emerald-800 px-3 py-1.5 text-white">Judul menempel saat digulir</div>
+                                <p class="px-3 py-1">Baris 1</p>
+                                <p class="px-3 py-1">Baris 2</p>
+                                <p class="px-3 py-1">Baris 3</p>
+                                <p class="px-3 py-1">Baris 4</p>
+                                <p class="px-3 py-1">Baris 5</p>
+                                <p class="px-3 py-1">Baris 6</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Tanda minus di depan class Tailwind berarti nilai negatif: <code>-top-2</code> sama dengan <code>top: -8px</code>.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian D — Interaksi dan layar</p>
+
+            <section class="lesson" id="state">
+                <div class="lesson-heading">
+                    <span class="lesson-number">13</span>
+                    <div>
+                        <h2>Hover, focus, dan state lainnya</h2>
+                        <p>Gaya yang hanya berlaku pada keadaan tertentu.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Di CSS vanilla, keadaan ditulis sebagai <strong>pseudo-class</strong> setelah selector: <code>.tombol:hover</code>. Di Tailwind, keadaan ditulis sebagai <strong>awalan</strong> pada class: <code>hover:bg-emerald-800</code>. Coba arahkan kursor, klik, dan tekan Tab pada contoh di bawah.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <button class="tombol" type="button">Arahkan kursor</button>
+                            <button class="tombol" type="button" disabled>Nonaktif</button>
+                            <input class="kolom" type="text" placeholder="Klik di sini">
+                            <ul class="daftar-belang">
+                                <li>Baris pertama</li>
+                                <li>Baris kedua</li>
+                                <li>Baris ketiga</li>
+                                <li>Baris keempat</li>
+                            </ul>
+                        </div>
+                        <style class="sumber">
+                            .tombol {
+                                padding: 8px 16px;
+                                border: none;
+                                border-radius: 8px;
+                                color: white;
+                                background: #047857;
+                                font: inherit;
+                                cursor: pointer;
+                            }
+
+                            .tombol:hover {
+                                background: #065f46;
+                            }
+
+                            .tombol:active {
+                                transform: scale(0.95);
+                            }
+
+                            .tombol:disabled {
+                                opacity: 0.5;
+                                cursor: not-allowed;
+                            }
+
+                            .kolom {
+                                display: block;
+                                margin-top: 12px;
+                                padding: 8px 12px;
+                                border: 1px solid #cbd5e1;
+                                border-radius: 8px;
+                            }
+
+                            .kolom:focus {
+                                border-color: #047857;
+                                outline: 2px solid #a7f3d0;
+                            }
+
+                            .daftar-belang {
+                                margin-top: 12px;
+                            }
+
+                            .daftar-belang li {
+                                padding: 4px 8px;
+                            }
+
+                            /* baris ganjil: 1, 3, 5, ... */
+                            .daftar-belang li:nth-child(odd) {
+                                background: #f1f5f9;
+                            }
+
+                            .daftar-belang li:first-child {
+                                font-weight: 700;
+                            }
+
+                            /* pseudo-element: isi tambahan sebelum elemen */
+                            .daftar-belang li::before {
+                                content: "→ ";
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <button class="cursor-pointer rounded-lg bg-emerald-700 px-4 py-2 text-white hover:bg-emerald-800 active:scale-95" type="button">Arahkan kursor</button>
+                            <button class="rounded-lg bg-emerald-700 px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50" type="button" disabled>Nonaktif</button>
+                            <input class="mt-3 block rounded-lg border border-slate-300 px-3 py-2 focus:border-emerald-700 focus:outline-2 focus:outline-emerald-200" type="text" placeholder="Klik di sini">
+                            <ul class="mt-3">
+                                <li class="px-2 py-1 before:content-['→_'] first:font-bold odd:bg-slate-100">Baris pertama</li>
+                                <li class="px-2 py-1 before:content-['→_'] first:font-bold odd:bg-slate-100">Baris kedua</li>
+                                <li class="px-2 py-1 before:content-['→_'] first:font-bold odd:bg-slate-100">Baris ketiga</li>
+                                <li class="px-2 py-1 before:content-['→_'] first:font-bold odd:bg-slate-100">Baris keempat</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Awalan state Tailwind yang paling sering dipakai: <code>hover:</code>, <code>focus:</code>, <code>active:</code>, <code>disabled:</code>, <code>first:</code>, <code>last:</code>, <code>odd:</code>, <code>even:</code>, dan <code>group-hover:</code> (gaya anak berubah ketika induknya di-hover).</p>
+            </section>
+
+            <section class="lesson" id="animasi">
+                <div class="lesson-heading">
+                    <span class="lesson-number">14</span>
+                    <div>
+                        <h2>Transisi, transform, dan animasi</h2>
+                        <p>Membuat perubahan terjadi secara halus.</p>
+                    </div>
+                </div>
+
+                <ul class="teks">
+                    <li><strong>transform</strong> mengubah bentuk elemen: geser (<code>translate</code>), putar (<code>rotate</code>), perbesar (<code>scale</code>).</li>
+                    <li><strong>transition</strong> membuat perubahan nilai berjalan bertahap, bukan seketika.</li>
+                    <li><strong>animation</strong> menjalankan gerakan sendiri tanpa menunggu hover, berdasarkan <code>@keyframes</code>.</li>
+                </ul>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="deret-animasi">
+                                <div class="kartu-angkat">Arahkan kursor</div>
+                                <div class="kartu-putar">Putar</div>
+                                <div class="pemutar"></div>
+                                <div class="denyut">Memuat…</div>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            .deret-animasi {
+                                display: flex;
+                                flex-wrap: wrap;
+                                align-items: center;
+                                gap: 20px;
+                            }
+
+                            .kartu-angkat,
+                            .kartu-putar {
+                                padding: 12px;
+                                border-radius: 8px;
+                                background: #d1fae5;
+                                /* properti apa, berapa lama */
+                                transition: transform 0.3s, box-shadow 0.3s;
+                            }
+
+                            .kartu-angkat:hover {
+                                transform: translateY(-6px);
+                                box-shadow: 0 10px 15px rgb(0 0 0 / 15%);
+                            }
+
+                            .kartu-putar:hover {
+                                transform: rotate(6deg) scale(1.1);
+                            }
+
+                            @keyframes putar {
+                                to {
+                                    transform: rotate(360deg);
+                                }
+                            }
+
+                            .pemutar {
+                                width: 28px;
+                                height: 28px;
+                                border: 4px solid #cbd5e1;
+                                border-top-color: #047857;
+                                border-radius: 50%;
+                                animation: putar 1s linear infinite;
+                            }
+
+                            @keyframes kedip {
+                                50% {
+                                    opacity: 0.4;
+                                }
+                            }
+
+                            .denyut {
+                                animation: kedip 2s ease-in-out infinite;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="flex flex-wrap items-center gap-5">
+                                <div class="rounded-lg bg-emerald-100 p-3 transition duration-300 hover:-translate-y-1.5 hover:shadow-lg">Arahkan kursor</div>
+                                <div class="rounded-lg bg-emerald-100 p-3 transition duration-300 hover:scale-110 hover:rotate-6">Putar</div>
+                                <div class="size-7 animate-spin rounded-full border-4 border-slate-300 border-t-emerald-700"></div>
+                                <div class="animate-pulse">Memuat…</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Tailwind menyediakan empat animasi bawaan: <code>animate-spin</code>, <code>animate-ping</code>, <code>animate-pulse</code>, dan <code>animate-bounce</code>. Untuk animasi lain kamu tetap menulis <code>@keyframes</code> sendiri.</p>
+            </section>
+
+            <section class="lesson" id="responsif">
+                <div class="lesson-heading">
+                    <span class="lesson-number">15</span>
+                    <div>
+                        <h2>Desain responsif</h2>
+                        <p>Satu halaman yang menyesuaikan diri dengan lebar layar.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Prinsipnya <strong>mobile-first</strong>: tulis gaya untuk layar kecil dulu, lalu tambahkan perubahan untuk layar yang lebih lebar. Di CSS vanilla perubahan itu ditulis dalam <code>@media (min-width: ...)</code>. Di Tailwind cukup dengan awalan: <code>sm:</code> (≥ 640px), <code>md:</code> (≥ 768px), <code>lg:</code> (≥ 1024px), <code>xl:</code> (≥ 1280px).</p>
+
+                <p class="teks"><strong>Coba:</strong> ubah lebar jendela browser. Kotak di bawah tersusun 1 kolom di layar sempit, 2 kolom mulai 640px, dan 4 kolom mulai 1024px.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="kisi-responsif">
+                                <div>1</div>
+                                <div>2</div>
+                                <div>3</div>
+                                <div>4</div>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            /* Layar kecil: satu kolom */
+                            .kisi-responsif {
+                                display: grid;
+                                grid-template-columns: 1fr;
+                                gap: 8px;
+                            }
+
+                            .kisi-responsif div {
+                                padding: 12px;
+                                background: #fef3c7;
+                                text-align: center;
+                            }
+
+                            /* Mulai 640px: dua kolom */
+                            @media (min-width: 640px) {
+                                .kisi-responsif {
+                                    grid-template-columns: repeat(2, 1fr);
+                                }
+                            }
+
+                            /* Mulai 1024px: empat kolom */
+                            @media (min-width: 1024px) {
+                                .kisi-responsif {
+                                    grid-template-columns: repeat(4, 1fr);
+                                }
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                                <div class="bg-amber-100 p-3 text-center">1</div>
+                                <div class="bg-amber-100 p-3 text-center">2</div>
+                                <div class="bg-amber-100 p-3 text-center">3</div>
+                                <div class="bg-amber-100 p-3 text-center">4</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">Agar responsif bekerja di ponsel, <code>&lt;head&gt;</code> harus berisi <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>. Awalan bisa digabung dengan class apa pun: <code>md:flex</code>, <code>lg:text-xl</code>, <code>sm:hidden</code>, bahkan <code>md:hover:bg-red-500</code>.</p>
+            </section>
+
+            <section class="lesson" id="variabel">
+                <div class="lesson-heading">
+                    <span class="lesson-number">16</span>
+                    <div>
+                        <h2>Variabel CSS dan tema Tailwind</h2>
+                        <p>Menyimpan nilai di satu tempat supaya mudah diganti.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Variabel CSS ditulis dengan awalan dua tanda minus (<code>--nama</code>) dan dipakai dengan <code>var(--nama)</code>. Ganti nilainya di satu tempat, semua yang memakainya ikut berubah. Di Tailwind, variabel yang ditulis di dalam <code>@theme</code> otomatis menjadi class baru.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="tema">
+                                <button class="tombol-tema" type="button">Tema hijau</button>
+                                <span class="teks-tema">Teks ikut warna tema</span>
+                            </div>
+                            <div class="tema tema-ungu">
+                                <button class="tombol-tema" type="button">Tema ungu</button>
+                                <span class="teks-tema">Teks ikut warna tema</span>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            /* Variabel didefinisikan di sini... */
+                            .tema {
+                                --warna-utama: #246b53;
+                                --jarak: 12px;
+                                margin-bottom: var(--jarak);
+                            }
+
+                            /* ...dan cukup diganti di sini untuk tema lain */
+                            .tema-ungu {
+                                --warna-utama: #6d28d9;
+                            }
+
+                            .tombol-tema {
+                                margin-right: var(--jarak);
+                                padding: 8px 16px;
+                                border: none;
+                                border-radius: 8px;
+                                color: white;
+                                background: var(--warna-utama);
+                                font: inherit;
+                            }
+
+                            .teks-tema {
+                                color: var(--warna-utama);
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="mb-3">
+                                <button class="mr-3 rounded-lg bg-merek px-4 py-2 text-white" type="button">bg-merek</button>
+                                <span class="text-merek">text-merek</span>
+                            </div>
+                            <div>
+                                <button class="mr-3 rounded-lg bg-merek-muda px-4 py-2 text-merek" type="button">bg-merek-muda</button>
+                                <span class="border-b-2 border-merek">border-merek</span>
+                            </div>
+                        </div>
+                        <p class="nama-kode">Di dalam &lt;head&gt;</p>
+                        <pre><code>&lt;style type="text/tailwindcss"&gt;
+    @import "tailwindcss";
+
+    @theme {
+        --color-merek: #246b53;
+        --color-merek-muda: #d9f18b;
+    }
+&lt;/style&gt;</code></pre>
+                    </article>
+                </div>
+
+                <p class="catatan">Nama variabel di <code>@theme</code> menentukan class yang muncul: <code>--color-merek</code> menghasilkan <code>bg-merek</code>, <code>text-merek</code>, dan <code>border-merek</code>. Awalan lain: <code>--font-*</code> untuk jenis huruf dan <code>--breakpoint-*</code> untuk titik responsif. Mode gelap memakai awalan <code>dark:</code>, misalnya <code>bg-white dark:bg-slate-900</code>.</p>
+            </section>
+
+            <!-- ===================================================== -->
+            <p class="bagian">Bagian E — Praktik</p>
+
+            <section class="lesson" id="proyek">
+                <div class="lesson-heading">
+                    <span class="lesson-number">17</span>
+                    <div>
+                        <h2>Proyek mini: form order</h2>
+                        <p>Form dari latihan HTML, sekarang diberi gaya.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Ini form "Order" dari latihan HTML. Semua yang dipakai sudah dipelajari: box model, flexbox, border, sudut, bayangan, state <code>:focus</code> dan <code>:hover</code>, serta transisi.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <form class="form-order">
+                                <h3>Order</h3>
+                                <div class="form-baris">
+                                    <label for="v-tanggal">Tanggal</label>
+                                    <input id="v-tanggal" type="date">
+                                </div>
+                                <div class="form-baris">
+                                    <label for="v-barang">Nama Barang</label>
+                                    <input id="v-barang" type="text" placeholder="nama barang">
+                                </div>
+                                <div class="form-baris">
+                                    <label for="v-jumlah">Jumlah</label>
+                                    <input id="v-jumlah" type="number" placeholder="jumlah barang">
+                                </div>
+                                <button type="button">Kirim Order</button>
+                            </form>
+                        </div>
+                        <style class="sumber">
+                            .form-order {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 16px;
+                                max-width: 360px;
+                                margin: 0 auto;
+                                padding: 24px;
+                                border: 1px solid #e2e8f0;
+                                border-radius: 16px;
+                                background: white;
+                                box-shadow: 0 10px 15px rgb(0 0 0 / 10%);
+                            }
+
+                            .form-order h3 {
+                                color: #1e293b;
+                                font-size: 1.25rem;
+                                font-weight: 700;
+                            }
+
+                            .form-baris {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 4px;
+                            }
+
+                            .form-baris label {
+                                color: #475569;
+                                font-size: 0.875rem;
+                                font-weight: 500;
+                            }
+
+                            .form-baris input {
+                                padding: 8px 12px;
+                                border: 1px solid #cbd5e1;
+                                border-radius: 8px;
+                                font: inherit;
+                            }
+
+                            .form-baris input:focus {
+                                border-color: #047857;
+                                outline: 2px solid #a7f3d0;
+                            }
+
+                            .form-order button {
+                                padding: 10px 16px;
+                                border: none;
+                                border-radius: 8px;
+                                color: white;
+                                background: #047857;
+                                font: inherit;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: background-color 0.2s;
+                            }
+
+                            .form-order button:hover {
+                                background: #065f46;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <form class="mx-auto flex max-w-90 flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
+                                <h3 class="text-xl font-bold text-slate-800">Order</h3>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-sm font-medium text-slate-600" for="t-tanggal">Tanggal</label>
+                                    <input class="rounded-lg border border-slate-300 px-3 py-2 focus:border-emerald-700 focus:outline-2 focus:outline-emerald-200" id="t-tanggal" type="date">
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-sm font-medium text-slate-600" for="t-barang">Nama Barang</label>
+                                    <input class="rounded-lg border border-slate-300 px-3 py-2 focus:border-emerald-700 focus:outline-2 focus:outline-emerald-200" id="t-barang" type="text" placeholder="nama barang">
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-sm font-medium text-slate-600" for="t-jumlah">Jumlah</label>
+                                    <input class="rounded-lg border border-slate-300 px-3 py-2 focus:border-emerald-700 focus:outline-2 focus:outline-emerald-200" id="t-jumlah" type="number" placeholder="jumlah barang">
+                                </div>
+                                <button class="cursor-pointer rounded-lg bg-emerald-700 px-4 py-2.5 font-semibold text-white transition-colors duration-200 hover:bg-emerald-800" type="button">Kirim Order</button>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="lesson" id="ringkasan">
+                <div class="lesson-heading">
+                    <span class="lesson-number">18</span>
+                    <div>
+                        <h2>Ringkasan, perbandingan, dan latihan</h2>
+                        <p>Contekan cepat dan tugas untuk dicoba sendiri.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Tujuan</th><th>CSS Vanilla</th><th>Tailwind</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Warna teks</td><td><code>color: #b91c1c</code></td><td><code>text-red-700</code></td></tr>
+                            <tr><td>Warna latar</td><td><code>background-color: #f1f5f9</code></td><td><code>bg-slate-100</code></td></tr>
+                            <tr><td>Ukuran huruf</td><td><code>font-size: 1.25rem</code></td><td><code>text-xl</code></td></tr>
+                            <tr><td>Huruf tebal</td><td><code>font-weight: 700</code></td><td><code>font-bold</code></td></tr>
+                            <tr><td>Teks di tengah</td><td><code>text-align: center</code></td><td><code>text-center</code></td></tr>
+                            <tr><td>Padding</td><td><code>padding: 1rem</code></td><td><code>p-4</code></td></tr>
+                            <tr><td>Margin atas</td><td><code>margin-top: 0.5rem</code></td><td><code>mt-2</code></td></tr>
+                            <tr><td>Menengahkan kotak</td><td><code>margin: 0 auto</code></td><td><code>mx-auto</code></td></tr>
+                            <tr><td>Lebar</td><td><code>width: 100%</code></td><td><code>w-full</code></td></tr>
+                            <tr><td>Garis tepi</td><td><code>border: 1px solid #cbd5e1</code></td><td><code>border border-slate-300</code></td></tr>
+                            <tr><td>Sudut bulat</td><td><code>border-radius: 0.5rem</code></td><td><code>rounded-lg</code></td></tr>
+                            <tr><td>Bayangan</td><td><code>box-shadow: ...</code></td><td><code>shadow-md</code></td></tr>
+                            <tr><td>Sembunyikan</td><td><code>display: none</code></td><td><code>hidden</code></td></tr>
+                            <tr><td>Flex, tengah-tengah</td><td><code>display: flex; justify-content: center; align-items: center</code></td><td><code>flex justify-center items-center</code></td></tr>
+                            <tr><td>Grid 3 kolom</td><td><code>display: grid; grid-template-columns: repeat(3, 1fr)</code></td><td><code>grid grid-cols-3</code></td></tr>
+                            <tr><td>Jarak antar anak</td><td><code>gap: 1rem</code></td><td><code>gap-4</code></td></tr>
+                            <tr><td>Posisi absolut</td><td><code>position: absolute; top: 0; right: 0</code></td><td><code>absolute top-0 right-0</code></td></tr>
+                            <tr><td>Saat di-hover</td><td><code>.x:hover { ... }</code></td><td><code>hover:...</code></td></tr>
+                            <tr><td>Layar ≥ 768px</td><td><code>@media (min-width: 768px) { ... }</code></td><td><code>md:...</code></td></tr>
+                            <tr><td>Transisi</td><td><code>transition: all 0.3s</code></td><td><code>transition duration-300</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="margin: 24px 0 8px; font-size: 1.05rem; font-weight: 700;">Kapan memakai yang mana?</h3>
+                <ul class="teks">
+                    <li><strong>CSS vanilla</strong> wajib dipahami lebih dulu. Tailwind hanya cara lain untuk menulis CSS; tanpa paham <code>flex</code> atau box model, class Tailwind tidak akan masuk akal.</li>
+                    <li><strong>Vanilla</strong> unggul ketika HTML harus tetap bersih, untuk gaya yang rumit (animasi khusus, selector kompleks), dan untuk halaman kecil tanpa alat tambahan.</li>
+                    <li><strong>Tailwind</strong> unggul dalam kecepatan: tidak perlu memikirkan nama class, tidak perlu berpindah file, dan ukuran serta warna konsisten karena diambil dari skala yang sama.</li>
+                    <li>Keduanya bisa dipakai bersama. Banyak proyek memakai Tailwind untuk sebagian besar tampilan dan sedikit CSS vanilla untuk kasus khusus.</li>
+                </ul>
+
+                <h3 style="margin: 24px 0 8px; font-size: 1.05rem; font-weight: 700;">Latihan</h3>
+                <ol class="teks">
+                    <li>Buat file HTML latihan berisi beberapa <code>h2</code>, navigasi berupa daftar link, dan sebuah gambar. Tambahkan tag <code>&lt;style&gt;</code> di <code>&lt;head&gt;</code>, lalu ubah warna dan ukuran semua <code>h2</code>.</li>
+                    <li>Ubah <code>&lt;nav&gt;</code> di file itu menjadi menu mendatar dengan flexbox. Hilangkan bullet-nya dengan <code>list-style: none</code>.</li>
+                    <li>Beri gambar di file itu sudut bulat dan bayangan, lalu letakkan keterangannya tepat di tengah bawah gambar.</li>
+                    <li>Buat tiga kartu produk berjajar dengan grid. Di layar sempit kartu harus tersusun ke bawah.</li>
+                    <li>Buat tombol yang berubah warna dan sedikit terangkat saat di-hover, dengan transisi 0.3 detik.</li>
+                    <li>Ulangi latihan 2 sampai 5 di file baru yang memakai Tailwind, tanpa menulis satu baris CSS pun.</li>
+                    <li>Tantangan: buat ulang form order di pelajaran 17 dari nol tanpa melihat kodenya, dengan warna tema pilihanmu sendiri lewat variabel CSS.</li>
+                </ol>
+            </section>
+
+            <section class="lesson" id="kanvas">
+                <div class="lesson-heading">
+                    <span class="lesson-number">★</span>
+                    <div>
+                        <h2>Kanvas bebas</h2>
+                        <p>Tempat mengerjakan latihan di atas tanpa membuat file baru.</p>
+                    </div>
+                </div>
+
+                <p class="teks">Hapus isi kotak kode di bawah dan tulis punyamu sendiri. Kotak kiri untuk HTML dengan CSS buatanmu, kotak kanan untuk HTML dengan class Tailwind.</p>
+
+                <div class="banding">
+                    <article class="sisi">
+                        <h3 class="label vanilla">CSS Vanilla</h3>
+                        <div class="hasil">
+                            <div class="kartu-ku">
+                                <h3>Kartu pertamaku</h3>
+                                <p>Ubah warna, jarak, atau isi kartu ini.</p>
+                                <button type="button">Tombol</button>
+                            </div>
+                        </div>
+                        <style class="sumber">
+                            .kartu-ku {
+                                max-width: 280px;
+                                padding: 20px;
+                                border-radius: 12px;
+                                background: #ecfdf5;
+                            }
+
+                            .kartu-ku h3 {
+                                font-size: 1.25rem;
+                                font-weight: 700;
+                            }
+
+                            .kartu-ku button {
+                                margin-top: 12px;
+                                padding: 8px 16px;
+                                border: none;
+                                border-radius: 8px;
+                                color: white;
+                                background: #047857;
+                                font: inherit;
+                                cursor: pointer;
+                            }
+
+                            .kartu-ku button:hover {
+                                background: #065f46;
+                            }
+                        </style>
+                    </article>
+
+                    <article class="sisi">
+                        <h3 class="label tailwind">Tailwind</h3>
+                        <div class="hasil">
+                            <div class="max-w-70 rounded-xl bg-emerald-50 p-5">
+                                <h3 class="text-xl font-bold">Kartu pertamaku</h3>
+                                <p>Ubah warna, jarak, atau isi kartu ini.</p>
+                                <button class="mt-3 cursor-pointer rounded-lg bg-emerald-700 px-4 py-2 text-white hover:bg-emerald-800" type="button">Tombol</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="catatan">CSS yang kamu tulis di sini berlaku untuk seluruh halaman, sama seperti CSS sungguhan. Selector tanpa awalan seperti <code>p { color: red; }</code> akan mewarnai semua paragraf di halaman ini. Kalau tampilannya jadi kacau, tekan Reset atau muat ulang halaman. Perubahanmu tidak tersimpan ke file.</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="page-footer">
+        <p>Belajar Web — pelajaran CSS. Sebelumnya: <a href="html.html">pelajaran HTML</a>. Selanjutnya: <a href="javascript.html">pelajaran JavaScript</a>.</p>
+    </footer>
+
+    <!--
+        EDITOR LANGSUNG
+        Skrip ini menyalin HTML dari setiap kotak contoh (dan CSS dari tag <style class="sumber">
+        di sebelahnya) ke dalam <textarea>. Setiap kali isi textarea berubah, isinya ditulis
+        balik ke kotak contoh atau ke tag <style>, sehingga hasilnya langsung terlihat.
+    -->
+    <script>
+        function rapikan(teks) {
+            const baris = teks.replace(/=""/g, '').split('\n');
+            while (baris.length && !baris[0].trim()) baris.shift();
+            while (baris.length && !baris[baris.length - 1].trim()) baris.pop();
+            const indentasi = Math.min(...baris.filter(b => b.trim()).map(b => b.match(/^ */)[0].length));
+            return baris.map(b => b.slice(indentasi)).join('\n');
+        }
+
+        function sesuaikanTinggi(editor) {
+            editor.style.height = 'auto';
+            editor.style.height = editor.scrollHeight + 4 + 'px';
+        }
+
+        // Membuat satu editor. `terapkan` dipanggil dengan isi terbaru setiap kali kode diubah.
+        function buatEditor(setelah, nama, isiAwal, terapkan, saatBerubah) {
+            const judul = document.createElement('p');
+            judul.className = 'nama-kode';
+            judul.textContent = nama + ' — bisa diedit';
+
+            const editor = document.createElement('textarea');
+            editor.className = 'editor';
+            editor.spellcheck = false;
+            editor.autocapitalize = 'off';
+            editor.setAttribute('aria-label', 'Kode ' + nama);
+            editor.value = isiAwal;
+
+            editor.addEventListener('input', () => {
+                terapkan(editor.value);
+                sesuaikanTinggi(editor);
+                saatBerubah();
+            });
+
+            // Tab menyisipkan 4 spasi. Tekan Esc dulu kalau ingin pindah dengan Tab.
+            editor.addEventListener('keydown', event => {
+                if (event.key === 'Escape') editor.blur();
+                if (event.key !== 'Tab' || event.shiftKey) return;
+                event.preventDefault();
+                editor.setRangeText('    ', editor.selectionStart, editor.selectionEnd, 'end');
+                editor.dispatchEvent(new Event('input'));
+            });
+
+            setelah.after(judul, editor);
+            sesuaikanTinggi(editor);
+            return editor;
+        }
+
+        document.querySelectorAll('.sisi').forEach(sisi => {
+            const hasil = sisi.querySelector('.hasil');
+            const sumber = sisi.querySelector('style.sumber');
+            const label = sisi.querySelector('.label');
+
+            // Baris kepala: label di kiri, tombol Reset di kanan
+            const kepala = document.createElement('div');
+            kepala.className = 'kepala-sisi';
+            label.before(kepala);
+            const reset = document.createElement('button');
+            reset.type = 'button';
+            reset.className = 'tombol-reset';
+            reset.textContent = 'Reset';
+            reset.hidden = true;
+            kepala.append(label, reset);
+
+            const tandaiBerubah = () => { reset.hidden = false; };
+            const awal = [];
+
+            const htmlAwal = rapikan(hasil.innerHTML);
+            const editorHtml = buatEditor(hasil, 'HTML', htmlAwal, isi => { hasil.innerHTML = isi; }, tandaiBerubah);
+            awal.push([editorHtml, htmlAwal]);
+
+            if (sumber) {
+                const cssAwal = rapikan(sumber.textContent);
+                const editorCss = buatEditor(editorHtml, 'CSS', cssAwal, isi => { sumber.textContent = isi; }, tandaiBerubah);
+                awal.push([editorCss, cssAwal]);
+            }
+
+            reset.addEventListener('click', () => {
+                awal.forEach(([editor, isi]) => {
+                    editor.value = isi;
+                    editor.dispatchEvent(new Event('input'));
+                });
+                reset.hidden = true;
+            });
+        });
+
+        // Lebar kolom berubah saat jendela diubah ukurannya, jadi tinggi editor dihitung ulang.
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.editor').forEach(sesuaikanTinggi);
+        });
+    </script>
+</body>
+</html>

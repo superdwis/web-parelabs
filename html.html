@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panduan interaktif untuk mengenal elemen-elemen HTML dasar.">
+    <title>Belajar HTML — Panduan Elemen</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #20302d;
+            --muted: #63716e;
+            --paper: #f5f7f2;
+            --card: #ffffff;
+            --green: #246b53;
+            --green-dark: #194d3d;
+            --lime: #d9f18b;
+            --line: #e2e9e2;
+            --code: #f0f4ed;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            line-height: 1.65;
+        }
+
+        a {
+            color: var(--green);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid #a5cb59;
+            outline-offset: 3px;
+        }
+
+        .hero {
+            padding: 32px max(24px, calc((100% - 1080px) / 2)) 48px;
+            color: #fff;
+            background:
+                radial-gradient(ellipse at 85% 15%, rgb(217 241 139 / 20%), transparent 30%),
+                linear-gradient(135deg, #194d3d, #287457);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 58px;
+        }
+
+        .brand {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: .02em;
+            text-decoration: none;
+        }
+
+        .topbar nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 22px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .topbar nav a {
+            color: #e3f0e8;
+            font-size: .9rem;
+            text-decoration: none;
+        }
+
+        .topbar nav a:hover {
+            color: var(--lime);
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: var(--lime);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            max-width: 720px;
+            margin: 0;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            letter-spacing: -.055em;
+            line-height: 1.05;
+        }
+
+        .hero-copy {
+            max-width: 610px;
+            margin: 20px 0 0;
+            color: #e0eee5;
+            font-size: 1.08rem;
+        }
+
+        .hero-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 26px;
+            padding: 9px 14px;
+            border: 1px solid rgb(255 255 255 / 25%);
+            border-radius: 999px;
+            color: #f4f8ec;
+            font-size: .88rem;
+        }
+
+        .hero-note span {
+            color: var(--lime);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 210px minmax(0, 1fr);
+            gap: 34px;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 42px 24px 70px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 24px;
+            align-self: start;
+        }
+
+        .sidebar p {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: .75rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .sidebar ol {
+            display: grid;
+            gap: 3px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 8px 10px;
+            border-radius: 8px;
+            color: #495953;
+            font-size: .9rem;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: var(--green-dark);
+            background: #e8eee4;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        .intro {
+            margin: 0 0 26px;
+            color: var(--muted);
+        }
+
+        .lesson {
+            margin: 0 0 20px;
+            padding: clamp(20px, 4vw, 32px);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: var(--card);
+            box-shadow: 0 8px 24px rgb(32 48 45 / 3%);
+            scroll-margin-top: 20px;
+        }
+
+        .lesson-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .lesson-number {
+            display: grid;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border-radius: 12px;
+            color: var(--green-dark);
+            background: #e8f2da;
+            font-size: .88rem;
+            font-weight: 800;
+        }
+
+        .lesson h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            letter-spacing: -.025em;
+            line-height: 1.35;
+        }
+
+        .lesson-heading p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: .91rem;
+        }
+
+        .demo-box {
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fbfcf9;
+        }
+
+        .demo-box > :first-child {
+            margin-top: 0;
+        }
+
+        .demo-box > :last-child {
+            margin-bottom: 0;
+        }
+
+        .heading-demo h1,
+        .heading-demo h2,
+        .heading-demo h3,
+        .heading-demo h4,
+        .heading-demo h5,
+        .heading-demo h6 {
+            margin: 8px 0;
+            line-height: 1.25;
+        }
+
+        .heading-demo h1 { font-size: 2rem; }
+        .heading-demo h2 { font-size: 1.65rem; }
+        .heading-demo h3 { font-size: 1.4rem; }
+        .heading-demo h4 { font-size: 1.2rem; }
+        .heading-demo h5 { font-size: 1rem; }
+        .heading-demo h6 { font-size: .88rem; }
+
+        .inline-demo > * {
+            margin-right: 8px;
+        }
+
+        code,
+        kbd,
+        samp {
+            padding: 2px 6px;
+            border-radius: 5px;
+            background: var(--code);
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: .9em;
+        }
+
+        pre {
+            overflow-x: auto;
+            margin: 0;
+            padding: 16px;
+            border-radius: 10px;
+            background: #1d3029;
+            color: #e9f5e8;
+            font-size: .88rem;
+            line-height: 1.55;
+        }
+
+        blockquote {
+            margin: 0;
+            padding: 4px 0 4px 16px;
+            border-left: 3px solid #a5cb59;
+            color: #43554d;
+        }
+
+        blockquote footer {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        .list-columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .list-columns h3,
+        .list-columns h4 {
+            margin: 0 0 8px;
+            font-size: 1rem;
+        }
+
+        .list-columns ul,
+        .list-columns ol {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .list-columns li + li {
+            margin-top: 4px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        caption {
+            padding: 12px 14px;
+            color: var(--muted);
+            font-size: .88rem;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 11px 14px;
+            border-top: 1px solid var(--line);
+        }
+
+        thead {
+            background: #edf3e9;
+        }
+
+        th {
+            color: #33483e;
+            font-size: .88rem;
+        }
+
+        tfoot {
+            background: #fbfcf9;
+            font-weight: 700;
+        }
+
+        .figure-demo {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(200px, .8fr);
+            align-items: center;
+            gap: 20px;
+        }
+
+        figure {
+            margin: 0;
+        }
+
+        figure img {
+            display: block;
+            width: 100%;
+            min-height: 150px;
+            border-radius: 10px;
+            background: #e8eee4;
+            object-fit: cover;
+        }
+
+        figcaption {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: .84rem;
+        }
+
+        .progress-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .progress-list label {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 5px;
+            font-size: .9rem;
+        }
+
+        progress,
+        meter {
+            width: 100%;
+            height: 14px;
+            accent-color: var(--green);
+        }
+
+        details {
+            padding: 14px 16px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+        }
+
+        details + details {
+            margin-top: 10px;
+        }
+
+        summary {
+            color: var(--green-dark);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        details p {
+            margin-bottom: 0;
+            color: var(--muted);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field {
+            min-width: 0;
+        }
+
+        .field-full {
+            grid-column: 1 / -1;
+        }
+
+        .field > label,
+        .field legend {
+            display: block;
+            margin-bottom: 6px;
+            color: #34463e;
+            font-size: .88rem;
+            font-weight: 700;
+        }
+
+        input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+        select,
+        textarea {
+            width: 100%;
+            min-height: 43px;
+            padding: 9px 11px;
+            border: 1px solid #cfd9d0;
+            border-radius: 8px;
+            color: var(--ink);
+            background: #fff;
+            font: inherit;
+        }
+
+        input[type="color"] {
+            width: 52px;
+            height: 43px;
+            padding: 4px;
+            border: 1px solid #cfd9d0;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        input[type="range"] {
+            width: min(100%, 260px);
+            accent-color: var(--green);
+        }
+
+        textarea {
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        fieldset {
+            min-width: 0;
+            margin: 0;
+            padding: 13px 14px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+        }
+
+        fieldset legend {
+            padding: 0 5px;
+            color: #34463e;
+            font-size: .88rem;
+            font-weight: 700;
+        }
+
+        .choice-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+        }
+
+        .choice-list label,
+        .inline-field label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: .9rem;
+        }
+
+        .inline-field {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            accent-color: var(--green);
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        button,
+        .button-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 9px 15px;
+            border: 1px solid var(--green);
+            border-radius: 8px;
+            color: #fff;
+            background: var(--green);
+            font: inherit;
+            font-size: .9rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button:hover,
+        .button-link:hover {
+            border-color: var(--green-dark);
+            background: var(--green-dark);
+        }
+
+        button.secondary {
+            color: var(--green-dark);
+            background: #fff;
+        }
+
+        button.secondary:hover {
+            background: #edf3e9;
+        }
+
+        .hint {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: .82rem;
+        }
+
+        .site-footer {
+            padding: 26px 24px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            background: #fff;
+            text-align: center;
+            font-size: .88rem;
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 760px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                margin-bottom: 42px;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding-top: 24px;
+            }
+
+            .sidebar {
+                position: static;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+
+            .sidebar p {
+                margin-bottom: 6px;
+            }
+
+            .sidebar ol {
+                display: flex;
+                width: max-content;
+            }
+
+            .sidebar a {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .hero {
+                padding-top: 24px;
+            }
+
+            .list-columns,
+            .figure-demo,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field-full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" id="atas">
+        <div class="topbar">
+            <a class="brand" href="index.html">Belajar Web</a>
+            <nav aria-label="Navigasi utama">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="#teks">Teks</a></li>
+                    <li><a href="#daftar">Daftar</a></li>
+                    <li><a href="#tabel">Tabel</a></li>
+                    <li><a href="#formulir">Formulir</a></li>
+                    <li><a href="css.html">Pelajaran CSS →</a></li>
+                </ul>
+            </nav>
+        </div>
+        <p class="eyebrow">Panduan pemula · Belajar dengan contoh</p>
+        <h1>Kenali elemen-elemen HTML.</h1>
+        <p class="hero-copy">Lihat contoh komponen yang sering dipakai untuk menyusun halaman web. Coba isi formulir, buka bagian detail, dan perhatikan bagaimana setiap elemen punya fungsi sendiri.</p>
+        <div class="hero-note"><span aria-hidden="true">●</span> Satu halaman, banyak elemen HTML</div>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar" aria-label="Daftar isi">
+            <p>Di halaman ini</p>
+            <nav aria-label="Daftar isi materi">
+                <ol>
+                    <li><a href="#struktur">Struktur halaman</a></li>
+                    <li><a href="#teks">Heading &amp; teks</a></li>
+                    <li><a href="#daftar">Daftar</a></li>
+                    <li><a href="#tabel">Tabel</a></li>
+                    <li><a href="#media">Gambar &amp; tautan</a></li>
+                    <li><a href="#elemen-lain">Elemen lainnya</a></li>
+                    <li><a href="#formulir">Formulir &amp; input</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+        <main>
+            <p class="intro">HTML (HyperText Markup Language) memberi struktur pada konten web. Berikut beberapa elemen umum beserta contoh yang bisa langsung kamu coba.</p>
+
+            <section class="lesson" id="struktur" aria-labelledby="judul-struktur">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">01</span>
+                    <div>
+                        <h2 id="judul-struktur">Struktur halaman</h2>
+                        <p>Elemen semantik membantu menjelaskan fungsi setiap bagian halaman.</p>
+                    </div>
+                </div>
+                <div class="demo-box">
+                    <p>Halaman ini memakai <code>&lt;header&gt;</code> untuk bagian pembuka, <code>&lt;nav&gt;</code> untuk navigasi, <code>&lt;main&gt;</code> untuk konten utama, <code>&lt;section&gt;</code> untuk kelompok materi, <code>&lt;aside&gt;</code> untuk daftar isi, dan <code>&lt;footer&gt;</code> untuk penutup.</p>
+                    <pre><code>&lt;header&gt;Bagian pembuka&lt;/header&gt;
+&lt;nav&gt;Menu navigasi&lt;/nav&gt;
+&lt;main&gt;Konten utama&lt;/main&gt;
+&lt;footer&gt;Bagian penutup&lt;/footer&gt;</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson" id="teks" aria-labelledby="judul-teks">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">02</span>
+                    <div>
+                        <h2 id="judul-teks">Heading dan elemen teks</h2>
+                        <p>Gunakan heading secara berurutan untuk membentuk hierarki konten.</p>
+                    </div>
+                </div>
+                <div class="demo-box">
+                    <div class="heading-demo">
+                        <h1>Heading 1 — judul utama</h1>
+                        <h2>Heading 2 — judul bagian</h2>
+                        <h3>Heading 3 — subbagian</h3>
+                        <h4>Heading 4</h4>
+                        <h5>Heading 5</h5>
+                        <h6>Heading 6</h6>
+                    </div>
+                    <hr>
+                    <p>Ini adalah paragraf dengan <strong>teks penting</strong>, <em>teks yang ditekankan</em>, <mark>teks yang disorot</mark>, <small>teks kecil</small>, dan <del>teks yang dihapus</del>.</p>
+                    <p>Rumus air: H<sub>2</sub>O. Contoh pangkat: 2<sup>3</sup> = 8. Tekan <kbd>Ctrl</kbd> + <kbd>S</kbd> untuk menyimpan.</p>
+                    <p>Baris pertama<br>Baris kedua setelah elemen <code>&lt;br&gt;</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson" id="daftar" aria-labelledby="judul-daftar">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">03</span>
+                    <div>
+                        <h2 id="judul-daftar">Daftar berurutan dan tidak berurutan</h2>
+                        <p>Pilih jenis daftar sesuai dengan urutan informasi.</p>
+                    </div>
+                </div>
+                <div class="demo-box list-columns">
+                    <div>
+                        <h3>Daftar berurutan <code>&lt;ol&gt;</code></h3>
+                        <ol>
+                            <li>Buat file HTML</li>
+                            <li>Tulis struktur halaman</li>
+                            <li>Buka di browser</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Daftar tidak berurutan <code>&lt;ul&gt;</code></h3>
+                        <ul>
+                            <li>Heading</li>
+                            <li>Paragraf</li>
+                            <li>Tautan</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Daftar istilah <code>&lt;dl&gt;</code></h4>
+                        <dl>
+                            <dt><strong>HTML</strong></dt>
+                            <dd>Bahasa untuk menyusun struktur konten web.</dd>
+                        </dl>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson" id="tabel" aria-labelledby="judul-tabel">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">04</span>
+                    <div>
+                        <h2 id="judul-tabel">Tabel</h2>
+                        <p>Tabel cocok untuk menampilkan data yang punya hubungan baris dan kolom.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <caption>Contoh jadwal belajar HTML</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Hari</th>
+                                <th scope="col">Materi</th>
+                                <th scope="col">Durasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Senin</th>
+                                <td>Struktur dan heading</td>
+                                <td>30 menit</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Rabu</th>
+                                <td>Daftar dan tautan</td>
+                                <td>25 menit</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Jumat</th>
+                                <td>Tabel dan formulir</td>
+                                <td>40 menit</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th scope="row" colspan="2">Total waktu</th>
+                                <td>95 menit</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson" id="media" aria-labelledby="judul-media">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">05</span>
+                    <div>
+                        <h2 id="judul-media">Tautan, gambar, dan kutipan</h2>
+                        <p>Tautan menghubungkan halaman; gambar sebaiknya memiliki teks alternatif.</p>
+                    </div>
+                </div>
+                <div class="demo-box figure-demo">
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1759998757089-cd6570889bb1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Contoh gambar dari Unsplash untuk latihan HTML" width="600" height="400">
+                        <figcaption>Gambar ditampilkan dengan <code>&lt;figure&gt;</code> dan keterangannya memakai <code>&lt;figcaption&gt;</code>.</figcaption>
+                    </figure>
+                    <div>
+                        <p><a href="#formulir">Lompat ke contoh formulir</a></p>
+                        <p><a href="https://developer.mozilla.org/id/docs/Web/HTML" target="_blank" rel="noopener noreferrer">Baca dokumentasi HTML di MDN ↗</a></p>
+                        <blockquote>
+                            <p>“Setiap halaman web dimulai dari struktur yang jelas.”</p>
+                            <footer>— Catatan belajar HTML</footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson" id="elemen-lain" aria-labelledby="judul-elemen-lain">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">06</span>
+                    <div>
+                        <h2 id="judul-elemen-lain">Elemen lainnya</h2>
+                        <p>Beberapa elemen bawaan HTML untuk keterangan, progres, tanggal, dan hasil.</p>
+                    </div>
+                </div>
+                <div class="demo-box">
+                    <div class="progress-list">
+                        <div>
+                            <label for="progres-belajar">Progres belajar <span>65%</span></label>
+                            <progress id="progres-belajar" value="65" max="100">65%</progress>
+                        </div>
+                        <div>
+                            <label for="nilai-latihan">Nilai latihan <span>8 dari 10</span></label>
+                            <meter id="nilai-latihan" min="0" max="10" low="4" high="8" optimum="10" value="8">8 dari 10</meter>
+                        </div>
+                    </div>
+                    <p>Materi berikutnya: <time datetime="2026-10-13">13 Oktober 2026</time>.</p>
+                    <p>Istilah <abbr title="HyperText Markup Language">HTML</abbr> adalah singkatan dari HyperText Markup Language.</p>
+                    <details>
+                        <summary>Apa fungsi elemen details?</summary>
+                        <p>Elemen <code>&lt;details&gt;</code> membuat konten yang bisa dibuka dan ditutup. Elemen <code>&lt;summary&gt;</code> menjadi judul yang dapat diklik.</p>
+                    </details>
+                    <details>
+                        <summary>Bagaimana menampilkan hasil teks?</summary>
+                        <p>Gunakan elemen <code>&lt;output&gt;</code> untuk mewakili hasil suatu perhitungan atau tindakan.</p>
+                        <p>Contoh hasil: <output name="contoh-output">Belajar itu menyenangkan!</output></p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="lesson" id="formulir" aria-labelledby="judul-formulir">
+                <div class="lesson-heading">
+                    <span class="lesson-number" aria-hidden="true">07</span>
+                    <div>
+                        <h2 id="judul-formulir">Formulir dan berbagai jenis input</h2>
+                        <p>Elemen formulir mengumpulkan data. Pilih contoh di bawah dan coba isi.</p>
+                    </div>
+                </div>
+                <form class="demo-box form-grid" action="#formulir" method="get">
+                    <div class="field">
+                        <label for="nama">Nama lengkap <code>text</code></label>
+                        <input type="text" id="nama" name="nama" placeholder="Contoh: Budi Santoso" autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label for="email">Alamat email <code>email</code></label>
+                        <input type="email" id="email" name="email" placeholder="nama@contoh.com" autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label for="sandi">Kata sandi <code>password</code></label>
+                        <input type="password" id="sandi" name="sandi" placeholder="Minimal 8 karakter" minlength="8">
+                    </div>
+                    <div class="field">
+                        <label for="telepon">Nomor telepon <code>tel</code></label>
+                        <input type="tel" id="telepon" name="telepon" placeholder="0812 3456 7890" autocomplete="tel">
+                    </div>
+                    <div class="field">
+                        <label for="usia">Usia <code>number</code></label>
+                        <input type="number" id="usia" name="usia" min="5" max="100" placeholder="Contoh: 17">
+                    </div>
+                    <div class="field">
+                        <label for="website">Alamat website <code>url</code></label>
+                        <input type="url" id="website" name="website" placeholder="https://contoh.com">
+                    </div>
+                    <div class="field">
+                        <label for="tanggal-lahir">Tanggal lahir <code>date</code></label>
+                        <input type="date" id="tanggal-lahir" name="tanggal-lahir">
+                    </div>
+                    <div class="field">
+                        <label for="waktu-belajar">Waktu belajar <code>time</code></label>
+                        <input type="time" id="waktu-belajar" name="waktu-belajar">
+                    </div>
+                    <div class="field">
+                        <label for="bulan">Bulan mulai belajar <code>month</code></label>
+                        <input type="month" id="bulan" name="bulan">
+                    </div>
+                    <div class="field">
+                        <label for="pekan">Pekan belajar <code>week</code></label>
+                        <input type="week" id="pekan" name="pekan">
+                    </div>
+                    <div class="field">
+                        <label for="warna">Warna favorit <code>color</code></label>
+                        <input type="color" id="warna" name="warna" value="#246b53">
+                    </div>
+                    <div class="field">
+                        <label for="tingkat">Tingkat kesulitan <code>range</code></label>
+                        <input type="range" id="tingkat" name="tingkat" min="1" max="10" value="5">
+                    </div>
+                    <div class="field field-full">
+                        <label for="topik">Topik yang ingin dipelajari <code>select</code></label>
+                        <select id="topik" name="topik">
+                            <option value="">Pilih salah satu topik</option>
+                            <optgroup label="Dasar">
+                                <option value="struktur">Struktur HTML</option>
+                                <option value="teks">Heading dan teks</option>
+                            </optgroup>
+                            <optgroup label="Lanjutan">
+                                <option value="tabel">Tabel</option>
+                                <option value="formulir">Formulir</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <fieldset class="field field-full">
+                        <legend>Format belajar yang disukai <code>radio</code></legend>
+                        <div class="choice-list">
+                            <label><input type="radio" name="format" value="membaca"> Membaca</label>
+                            <label><input type="radio" name="format" value="video"> Video</label>
+                            <label><input type="radio" name="format" value="praktik"> Praktik langsung</label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="field field-full">
+                        <legend>Bahasa yang pernah dicoba <code>checkbox</code></legend>
+                        <div class="choice-list">
+                            <label><input type="checkbox" name="bahasa" value="html"> HTML</label>
+                            <label><input type="checkbox" name="bahasa" value="css"> CSS</label>
+                            <label><input type="checkbox" name="bahasa" value="javascript"> JavaScript</label>
+                        </div>
+                    </fieldset>
+                    <div class="field field-full">
+                        <label for="pesan">Catatan atau pertanyaan <code>textarea</code></label>
+                        <textarea id="pesan" name="pesan" rows="4" placeholder="Tulis pertanyaanmu di sini..."></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="berkas">Pilih berkas <code>file</code></label>
+                        <input type="file" id="berkas" name="berkas" accept=".jpg,.png,.pdf">
+                    </div>
+                    <div class="field inline-field">
+                        <input type="checkbox" id="setuju" name="setuju" value="ya">
+                        <label for="setuju">Saya setuju untuk belajar HTML</label>
+                    </div>
+                    <div class="field field-full form-actions">
+                        <button type="submit">Kirim formulir</button>
+                        <button class="secondary" type="reset">Kosongkan formulir</button>
+                        <button class="secondary" type="button" onclick="alert('Halo! Kamu sudah mencoba tombol HTML.')">Coba tombol</button>
+                    </div>
+                    <p class="field-full hint">Contoh ini hanya untuk latihan di browser. Data formulir tidak dikirim ke server.</p>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>Belajar Web — pelajaran HTML. Selanjutnya: <a href="css.html">pelajaran CSS</a> · <a href="javascript.html">pelajaran JavaScript</a>.</p>
+    </footer>
+</body>
+</html>
